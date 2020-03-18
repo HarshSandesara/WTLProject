@@ -21,7 +21,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $request->input('name');
+        return $request->all();
     }
 
     public function update(Request $request, $id)
