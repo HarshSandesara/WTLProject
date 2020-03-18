@@ -21,14 +21,14 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        return Event::create($request->all());
+        $request->input('name');
     }
 
     public function update(Request $request, $id)
     {
         $article = Event::findOrFail($id);
         $article->update($request->all());
-        return $article;
+        return $request->all();
     }
 
     public function delete(Request $request, $id)

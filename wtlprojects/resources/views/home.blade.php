@@ -15,10 +15,11 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="/events" method="POST">
+                        @csrf
                         <input type="text" class="form-control" placeholder="Event Name">
                         <input type="date" class="form-control" placeholder="Event date">
-                        <input class="form-control" placeholder="Committee">
+                        <input type="number" class="form-control" placeholder="Committee">
                         <button type="submit" class="btn btn-primary">Post!</button>
                     </form>
                 </div>
