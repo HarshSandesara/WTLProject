@@ -21,7 +21,13 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
+        $event = new Event();
+        $event->name = $request->name;
+        $event->when = $request->when;
+        $event->committee_id = $request->committee_id;
+        $event->save();
+
+        return redirect('/home');
     }
 
     public function update(Request $request, $id)
