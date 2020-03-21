@@ -1,14 +1,14 @@
 <div class="ribbon">
     <span class="headsize">Hello, {{name}}!</span>
     <div class="row">
-        <div class="col-md-3 text-center tab" (click)=openCalendar()>Calendar</div>
-        <div class="col-md-3 text-center tab" (click)=openEvents()>Events</div>
-        <div class="col-md-3 text-center tab" (click)=openCommittees()>Committees</div>
-        <div class="col-md-3 text-center tab" (click)=openProfile()>Profile</div>
+        <div class="col-md-3 text-center tab cursor" (click)=openCalendar()>Calendar</div>
+        <div class="col-md-3 text-center tab cursor" (click)=openEvents()>Events</div>
+        <div class="col-md-3 text-center tab cursor" (click)=openCommittees()>Committees</div>
+        <div class="col-md-3 text-center tab cursor" (click)=openProfile()>Profile</div>
     </div>
 </div>
 <div class="profile" *ngIf = "ProfileIsShow">
-    <img class="profileImage" src="ribbon.png">
+    <img class="profileImage" src="ribbon4.jpg">
     {{name}}<br>
     <hr>
     Edit Profile
@@ -19,8 +19,8 @@
 </div>
 <div class="content" *ngIf=CalendarIsShow>
     <div class="calendar-container">
-      <div class="calendar"> 
-        <div class="year-header"> 
+      <div class="calendar">
+        <div class="year-header">
           <span class="left-button" id="prev"> &lang; </span> 
           <span class="year" id="label"></span> 
           <span class="right-button" id="next"> &rang; </span>
@@ -92,6 +92,51 @@
         </div>
     </div>
   </div>
-  <div *ngIf=CommitteesIsShow class="jumbotron">
-      This is the Committees division.
+  <div *ngIf=CommitteesIsShow class="panel">
+      <!-- <div class="container">
+        <br>
+        <hr>
+        <h1>Event Name</h1>
+        <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+        <br>Committee Name, Time Remaining
+        <hr>
+        <h1>Event Name</h1>
+        <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+        <br>Committee Name, Time Remaining
+        <hr>
+        <h1>Event Name</h1>
+        <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+        <br>Committee Name, Time Remaining
+        <hr>
+        <h1>Event Name</h1>
+        <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+        <br>Committee Name, Time Remaining
+        <hr>
+      </div> -->
+      <div class="container">
+        <hr>
+        <div class="text-center" id="parentdiv">
+          <input type="button" id="addEvent" class="button cbutton" (click)=openNewEvent(this) value="Add Event">
+        </div>
+        
+        <!-- <div *ngIf=NewEventIsShow>
+          <hr>
+          Event Name: <input type="text"><br>
+          <input type="button" class="button cbutton float-right" value="Add"><br>
+          Event Date:
+          <select>
+            <option *ngFor="let month of months">{{month}}</option>
+        </select>
+        
+        <select>
+          <option *ngFor="let day of days">{{day}}</option>
+        </select>
+      
+        <select>
+          <option *ngFor="let year of years">{{year}}</option>
+        </select>
+        <hr>
+        <input type="button" class="button cbutton" (click)=openNewEvent() value="Add Event">
+        </div> -->
+      </div>
   </div>
