@@ -27,5 +27,3 @@ Route::get('/events/{id}', 'EventController@show');
 Route::post('/events', 'EventController@store');
 Route::put('/events/{id}', 'EventController@update');
 Route::delete('/events/{id}', 'EventController@delete');
-
-
