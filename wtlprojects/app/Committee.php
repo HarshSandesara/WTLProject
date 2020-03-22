@@ -10,7 +10,7 @@ class Committee extends Model
 
     public function followedBy()
     {
-       return $this->belongsToMany('App\User', 'commitee_user');
+       return $this->belongsToMany('App\User', 'committee_user');
     }
 
     public function event()

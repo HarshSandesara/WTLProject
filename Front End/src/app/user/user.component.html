@@ -8,10 +8,12 @@
     </div>
 </div>
 <div class="profile" *ngIf = "ProfileIsShow">
-    <img class="profileImage" src="ribbon4.jpg">
+    <img class="profileImage" src="/assets/ribbon4.jpg">
     {{name}}<br>
     <hr>
     Edit Profile
+    <hr>
+    <a *ngIf="isOrganiser" href = "#" routerLink = "/organiser">Organiser Mode</a>
     <hr>
     Settings
     <hr>

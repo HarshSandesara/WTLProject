@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { $ } from 'protractor';
-import { BuiltinFunctionCall } from '@angular/compiler/src/compiler_util/expression_converter';
+import { DataService } from '../shared/data.service';
+
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-organiser',
+  templateUrl: './organiser.component.html',
+  styleUrls: ['./organiser.component.css']
 })
-export class UserComponent implements OnInit {
+export class OrganiserComponent implements OnInit {
   isOrganiser=true;
+  eventsData;
   name='Harsh Sandesara';
   ProfileIsShow = false;
   CalendarIsShow = false;
@@ -18,9 +19,17 @@ export class UserComponent implements OnInit {
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
   years = [2020, 2021, 2022, 2023];
-  constructor() { }
+  myDatePicker = new Date();
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.getEvents();
+  }
+  getEvents() {
+    this.dataService.fetchEvents().subscribe( res =>{
+      console.log("Events Data Fetched: ", res);
+      this.eventsData = res['data'];
+    });
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;
@@ -89,4 +98,5 @@ export class UserComponent implements OnInit {
     parent.insertBefore(element, refNode)
     document.getElementById("parentdiv").insertBefore(button, element)
   }
+
 }

@@ -15,11 +15,12 @@ class Event extends JsonResource
     public function toArray($request)
     {
         return [
-            'committee_id' => $this->name,
-            'answers'    => (int) $this->answers,
-            'points'     => (int) $this->points,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'id'           => $this->id,
+            'committee_id' => $this->committee_id,
+            'name'         => $this->name,
+            'when'         => $this->when,
+            'created_at'   => $this->created_at,
+            'updated_at'   => $this->updated_at,
         ];
     }
 }

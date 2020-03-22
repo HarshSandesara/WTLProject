@@ -23,9 +23,8 @@ Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', 'EventController@index');
-Route::get('/events/{id}', 'EventController@show');
+// Route::get('/events/{id}', 'EventController@show');
 Route::post('/events', 'EventController@store');
-Route::put('/events/{id}', 'EventController@update');
-Route::delete('/events/{id}', 'EventController@delete');
+
 
 

@@ -26,7 +26,7 @@ class User extends Authenticatable
      */
     public function following()
     {
-        return $this->belongsToMany('App\Committee', 'commitee_user');
+        return $this->belongsToMany('App\Committee', 'committee_user');
     }
 
     protected $hidden = [
