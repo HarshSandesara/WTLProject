@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Auth;
-use App\Committee;
-use App\Event;
 use Illuminate\Http\Request;
+use App\Event;
+use App\Http\Resources\Event as EventResource;
+use App\Http\Resources\EventCollection;
+use App\Committee;
+use Auth;
 
 class EventController extends Controller
 {
@@ -13,6 +14,7 @@ class EventController extends Controller
     {
         $user = Auth::user();
         $events[] = new Event();
+        array_shift($events);
         foreach ($user->following as $committee) {
             foreach($committee->event as $event) {
                 array_push($events, $event);
@@ -23,9 +25,14 @@ class EventController extends Controller
         ]);
     }
 
+    public function indexApi()
+    {
+        return new EventCollection(Event::all());
+    }
+
     public function show($id)
     {
-        return Event::find($id);
+        return new EventResource(Event::findOrFail($id));
     }
 
     public function store(Request $request)
@@ -46,17 +53,31 @@ class EventController extends Controller
         return redirect('/home');
     }
 
+    public function storeApi(Request $request)
+    {
+        $event = new Event();
+        $event->name = $request->name;
+        $event->when = $request->when;
+        $event->committee_id = $request->committee_id;
+        $event->save();
+
+        return (new EventResource($event))
+                ->response()
+                ->setStatusCode(201);
+    }
+
     public function update(Request $request, $id)
     {
-        $article = Event::findOrFail($id);
-        $article->update($request->all());
-        return $request->all();
+        $event = Event::findOrFail($id);
+        $event->update($request->all());
+        $event->save();
+        return (new EventResource($event))->response();
     }
 
     public function delete(Request $request, $id)
     {
-        $article = Event::findOrFail($id);
-        $article->delete();
-        return 204;
+        $event= Event::findOrFail($id);
+        $event->delete();
+        return response()->json(null, 204);
     }
 }

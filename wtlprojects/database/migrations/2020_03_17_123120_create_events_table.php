@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('committee_id')->unsigned();
-            $table->foreign('committee_id')->references('id')->on('committees')->onDelete('cascade');
+            $table->foreign('committee_id')->references('id'); // Agar committee delete hua to past events mein fir bhi dikhna chahiye data
             $table->string('name');
             $table->date('when');
             $table->timestamps();

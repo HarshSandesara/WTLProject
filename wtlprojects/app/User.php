@@ -26,7 +26,7 @@ class User extends Authenticatable
      */
     public function following()
     {
-        return $this->belongsToMany('App\Committee')->withTimestamps();
+        return $this->belongsToMany('App\Committee', 'committee_user');
     }
 
     protected $hidden = [

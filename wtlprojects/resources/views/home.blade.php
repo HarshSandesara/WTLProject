@@ -26,12 +26,13 @@
                 <hr>
                 <div class="card-body">
                     @foreach ($events ?? '' as $event)
-                        @if(!empty($event->name))
-                            <h3>{{ $event->committee['name'] }}</h3>
-                            {{$event->name}}
-                            {{Carbon\Carbon::parse($event->when)->diffForHumans()}}
-                            <hr>
-                        @endif
+                        <div class="d-flex flex-row justify-content-between">
+                            <h2>{{ $event->committee['name'] }}</h2>
+                            <button type="button" class="btn btn-primary" id="{{ $event->id }}">Edit!</button>
+                        </div>
+                        {{$event->name}}
+                        {{Carbon\Carbon::parse($event->when)->diffForHumans()}}
+                        <hr>
                     @endforeach
                 </div>
             </div>
