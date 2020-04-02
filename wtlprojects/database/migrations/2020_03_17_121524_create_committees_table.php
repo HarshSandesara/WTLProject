@@ -18,6 +18,7 @@ class CreateCommitteesTable extends Migration
             $table->string('name');
             $table->string('login_id')->unique();
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

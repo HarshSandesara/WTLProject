@@ -18,10 +18,13 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if ($guard == "committee" && Auth::guard($guard)->check()) {
+            return redirect('/committee');
+        }
+
         if (Auth::guard($guard)->check()) {
             return redirect(RouteServiceProvider::HOME);
         }
-
         return $next($request);
     }
 }

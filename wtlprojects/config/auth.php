@@ -36,6 +36,11 @@ return [
     */
 
     'guards' => [
+        'committee' => [
+            'driver' => 'session',
+            'provider' => 'committees',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -69,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'committees' => [
+            'driver' => 'eloquent',
+            'model' => App\Committee::class,
         ],
 
         // 'users' => [
