@@ -42,31 +42,6 @@ export class UserComponent implements OnInit {
     this.CalendarIsShow = false
   }
   openNewEvent(event:any){
-    var selectMonth = document.createElement("select")
-    selectMonth.className = "btn btn-danger"
-    selectMonth.style["margin"] = "0 auto"
-    for(var i = 0;i<this.months.length;i++){
-      var option = document.createElement("option")
-      option.setAttribute("value", this.months[i])
-      option.text = this.months[i]
-      selectMonth.append(option)
-    }
-    var selectDay = document.createElement("select")
-    selectDay.className = "btn btn-danger"
-    for(var i = 0;i<this.days.length;i++){
-      var option = document.createElement("option")
-      option.setAttribute("value", this.days[i].toString())
-      option.text = this.days[i].toString()
-      selectDay.append(option)
-    }
-    var selectYear = document.createElement("select")
-    selectYear.className = "btn btn-danger"
-    for(var i = 0;i<this.years.length;i++){
-      var option = document.createElement("option")
-      option.setAttribute("value", this.years[i].toString())
-      option.text = this.years[i].toString()
-      selectYear.append(option)
-    }
     var button = document.createElement("input")
     button.setAttribute("type", "button")
     button.setAttribute("id", "addbutton")
@@ -77,10 +52,7 @@ export class UserComponent implements OnInit {
     button.style["border-radius"] = "50%"
     button.style["float"] = "right"
     var element = document.createElement("div")
-    element.innerHTML = '<h4>Event Name:</h4><input class="form-control" type="text" style="width: 30%; margin: 0 auto;"><br><h4>Event Date:</h4>'
-    element.append(selectMonth)
-    element.append(selectDay)
-    element.append(selectYear)
+    element.innerHTML = '<h4>Event Name:</h4><input class="form-control" type="text" style="width: 30%; margin: 0 auto;"><br><h4>Event Date:</h4><input type="date" class="btn btn-danger"> <input type="time" class="btn btn-danger">'
     var refNode = document.getElementById("addEvent")
     var newcontent = document.createElement('div')
     newcontent.innerHTML = '<hr>'
