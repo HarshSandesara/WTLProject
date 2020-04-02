@@ -19,7 +19,7 @@ class CommitteesTableSeeder extends Seeder
         for ($i=0; $i < 5; $i++) {
             Committee::create([
                 'name' => $faker->name,
-                'email' => $faker->email,
+                'login_id' => $faker->bothify('?#??##'),
                 'password' => $password
             ]);
         }
