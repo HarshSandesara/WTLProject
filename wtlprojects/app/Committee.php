@@ -3,10 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Committee extends Model
+class Committee extends Authenticatable
 {
-    protected $fillable = ['title', 'body'];
+
+    protected $guard = 'committee';
+
+    protected $fillable = ['title', 'body', 'name', 'email', 'password',];
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function followedBy()
     {

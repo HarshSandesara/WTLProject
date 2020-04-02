@@ -35,22 +35,25 @@ class EventController extends Controller
         return new EventResource(Event::findOrFail($id));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
-        $committee = new Committee();
+        //$committee = new Committee();
+        if(Auth::guard('committee')->check())
+        {
+            $committee = auth('committee')->user();
+        }
         $request->validate([
             'name' => 'required',
             'when' => 'required',
-            'committee_id' => 'required|exists:'.$committee->getTable().','.$committee->getKeyName()
+            //'committee_id' => 'required|exists:'.$committee->getTable().','.$committee->getKeyName()
         ]);
-
         $event = new Event();
         $event->name = $request->name;
         $event->when = $request->when;
-        $event->committee_id = $request->committee_id;
+        $event->committee_id = $committee->getKey();
         $event->save();
 
-        return redirect('/home');
+        return redirect('/committee');
     }
 
     public function storeApi(Request $request)
@@ -65,7 +68,7 @@ class EventController extends Controller
                 ->response()
                 ->setStatusCode(201);
     }
-    
+
     public function update(Request $request, $id)
     {
         $event = Event::findOrFail($id);
