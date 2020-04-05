@@ -95,6 +95,20 @@
     </div>
   </div>
   <div *ngIf=CommitteesIsShow class="panel">
+    <div *ngFor="let event of eventsData" class="container" id="events">
+      <form class="ml-2 mt-2" id="form_{{ event.id }}">
+        <h4>Event Id: {{ event.id }}</h4>
+        <h4>Event Name: {{ event.name }}</h4> 
+        <h4>Event Start Date and Time: {{ event.from }}</h4>
+        <h4>Event End Date and Time: {{ event.to }}</h4>
+        <h4>Registration Fees: {{ event.price }}</h4>
+        <div class="d-flex">
+          <button class="btn btn-primary ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+          <button class="btn btn-primary ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+        </div>
+      </form>
+      <hr>
+    </div>
       <!-- <div class="container">
         <br>
         <hr>
@@ -115,11 +129,11 @@
         <br>Committee Name, Time Remaining
         <hr>
       </div> -->
-      <div class="container">
+      <!-- <div class="container">
         <hr>
         <div class="text-center" id="parentdiv">
           <input type="button" id="addEvent" class="button cbutton" (click)=openNewEvent(this) value="Add Event">
-        </div>
+        </div> -->
         
         <!-- <div *ngIf=NewEventIsShow>
           <hr>
@@ -140,5 +154,5 @@
         <hr>
         <input type="button" class="button cbutton" (click)=openNewEvent() value="Add Event">
         </div> -->
-      </div>
+      <!-- </div> -->
   </div>

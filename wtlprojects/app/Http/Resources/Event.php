@@ -18,9 +18,11 @@ class Event extends JsonResource
             'id'           => $this->id,
             'committee_id' => $this->committee_id,
             'name'         => $this->name,
-            'when'         => $this->when,
+            'from'         => $this->from,
+            'to'           => $this->to,
+            'price'        => $this->price,
             'created_at'   => $this->created_at,
-            'updated_at'   => $this->updated_at,
+            'updated_at'   => $this->updated_at
         ];
     }
 }

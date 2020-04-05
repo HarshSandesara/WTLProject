@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<p> {{ auth()->user()->id }} </p>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -19,7 +18,9 @@
                     <form method="POST" action="/events">
                         @csrf
                         <input type="text" name="name" class="form-control" placeholder="Event Name" required>
-                        <input type="date" name="when" class="form-control" placeholder="Event date" required>
+                        <input type="date" name="from" class="form-control" placeholder="Event Start Date" required>
+                        <input type="date" name="to" class="form-control" placeholder="Event End Date" required>
+                        <input type="number" name="price" class="form-control" placeholder="Registration Fees" required>
                         <input type="number" name="committee_id" class="form-control" placeholder="Committee" required>
                         <button type="submit" class="btn btn-primary">Post!</button>
                     </form>
@@ -31,8 +32,10 @@
                             <h3>{{ $event->committee['name'] }}</h3>
                             <button type="button" class="btn btn-primary" id="{{ $event->id }}">Edit!</button>
                         </div>
-                        {{$event->name}}
-                        {{Carbon\Carbon::parse($event->when)->diffForHumans()}}
+                        Event Name: {{$event->name}}<br>
+                        Event Start Date: {{Carbon\Carbon::parse($event->from)->diffForHumans()}}<br>
+                        Event End Date: {{Carbon\Carbon::parse($event->to)->diffForHumans()}}<br>
+                        Registration Fees: {{$event->price}}<br>
                         <hr>
                     @endforeach
                 </div>

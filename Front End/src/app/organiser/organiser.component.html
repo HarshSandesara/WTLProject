@@ -1,4 +1,4 @@
-<div class="ribbon">
+  <div class="ribbon">
   <span class="headsize">Hello, {{name}}!</span>
   <div class="row">
       <div class="col-md-3 text-center tab cursor" (click)=openCalendar()>Calendar</div>
@@ -94,13 +94,22 @@
       </div>
   </div>
 </div>
-<div *ngFor="let event of eventsData">
-  <h4>Event Name: {{ event.name }}</h4><br>
-  <h4>Event Date: {{ event.when }}</h4>
-  <hr>
-</div>
 <div *ngIf=CommitteesIsShow class="panel">
-    <!-- <div class="container">
+  <div *ngFor="let event of eventsData" class="container" id="events">
+    <form class="ml-2 mt-2" id="form_{{ event.id }}">
+      <h4>Event Id: {{ event.id }}</h4>
+      <h4>Event Name: {{ event.name }}</h4> 
+      <h4>Event Start Date and Time: {{ event.from }}</h4>
+      <h4>Event End Date and Time: {{ event.to }}</h4>
+      <h4>Registration Fees: {{ event.price }}</h4>
+      <div class="d-flex">
+        <button class="btn btn-primary ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+        <button class="btn btn-primary ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+      </div>
+    </form>
+    <hr>
+  </div>  
+  <!-- <div class="container">
       <br>
       <hr>
       <h1>Event Name</h1>
@@ -120,8 +129,50 @@
       <br>Committee Name, Time Remaining
       <hr>
     </div> -->
+    <!-- <hr> -->
     <div class="container">
-      <hr>
+      <div class="text-center">
+        <form [formGroup]="newEventData" (ngSubmit)="addEvent()">
+          <input type="submit" id="addbutton" value="+" class="btn btn-danger addNewEventButton">
+          <div id="newEventNameDiv" class="form-group">
+            <label for="newEventName">
+              <h4>Event Name:</h4>
+            </label>
+            <input id="newEventName" type="text" class="form-control" formControlName="newEventName" style="width: 30%; margin: 0 auto;">
+          </div>
+          <div class="form-group">
+            <label for="newEventStartDate">
+              <h4>Event Start Date:</h4>
+            </label>
+            <input id="newEventStartDate" type="date" class="form-control btn-danger" formControlName="newEventStartDate" style="width: 30%; margin: 0 auto;">
+          </div>
+          <div class="form-group">
+            <label for="newEventStartTime">
+              <h4>Event Start Time:</h4>
+            </label>
+            <input id="newEventStartTime" type="time" class="form-control btn-danger" formControlName="newEventStartTime" style="width: 30%; margin: 0 auto;">
+          </div>
+          <div class="form-group">
+            <label for="newEventEndDate">
+              <h4>Event End Date:</h4>
+            </label>
+            <input id="newEventEndDate" type="date" class="form-control btn-danger" formControlName="newEventEndDate" style="width: 30%; margin: 0 auto;">
+          </div>
+          <div class="form-group">
+            <label for="newEventEndTime">
+              <h4>Event End Time:</h4>
+            </label>
+            <input id="newEventEndTime" type="time" class="form-control btn-danger" formControlName="newEventEndTime" style="width: 30%; margin: 0 auto;">
+          </div>
+          <div class="form-group">
+            <label for="newEventPrice">
+              <h4>Registration Fees:</h4>
+            </label>
+            <input id="newEventPrice" type="number" class="form-control btn-danger" formControlName="newEventPrice" style="width: 30%; margin: 0 auto;">
+          </div>
+          <hr>
+        </form>        
+      </div>
       <div class="text-center" id="parentdiv">
         <input type="button" id="addEvent" class="button cbutton" (click)=openNewEvent(this) value="Add Event">
       </div>

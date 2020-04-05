@@ -517,3 +517,12 @@ body {
 .cursor{
     cursor: pointer;
 }
+
+.addNewEventButton{
+    background: linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%);
+    border: none;
+    border-radius: 100%;
+    float: right;
+}
+
+

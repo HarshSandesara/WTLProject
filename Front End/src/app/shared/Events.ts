@@ -1,5 +1,7 @@
 export interface Event {
   name: string;
-  when: Date;
+  from: Date;
+  to: Date;
+  price: number;
   committee_id: number;
 }
