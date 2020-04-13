@@ -15,11 +15,12 @@ class EventsSeederTable extends Seeder
     {
         Event::truncate();
         $faker = \Faker\Factory::create();
-        $unixTimestap = '1461067200';
         for ($i=0; $i < 10; $i++) {
             Event::create([
                 'name' => $faker->name,
-                'when' => $faker->dateTimeBetween('now', '+60 days'),
+                'from' => $faker->dateTimeBetween('now', '+3 days'),
+                'to' => $faker->dateTimeBetween('+3 days', '+6 days'),
+                'price' => $faker->numberBetween($min = 10, $max = 500),
                 'committee_id' => $this->getRandomCommitteeId()
             ]);
         }

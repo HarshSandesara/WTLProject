@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use App\Event;
 use App\Http\Resources\Event as EventResource;
 use App\Http\Resources\EventCollection;
@@ -20,8 +21,13 @@ class EventController extends Controller
                 array_push($events, $event);
             }
         }
+        $sortedEvents = Arr::sort($events, function($event)
+        {
+            // Sort the events by their date and time.
+            return $event->from;
+        });
         return view('home', [
-            'events' => $events
+            'events' => $sortedEvents
         ]);
     }
 
@@ -44,12 +50,16 @@ class EventController extends Controller
         }
         $request->validate([
             'name' => 'required',
-            'when' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+            'price' => 'required'
             //'committee_id' => 'required|exists:'.$committee->getTable().','.$committee->getKeyName()
         ]);
         $event = new Event();
         $event->name = $request->name;
-        $event->when = $request->when;
+        $event->from = $request->from;
+        $event->to = $request->to;
+        $event->price = $request->price;
         $event->committee_id = $committee->getKey();
         $event->save();
 
@@ -60,7 +70,9 @@ class EventController extends Controller
     {
         $event = new Event();
         $event->name = $request->name;
-        $event->when = $request->when;
+        $event->from = $request->from;
+        $event->to = $request->to;
+        $event->price = $request->price;
         $event->committee_id = $request->committee_id;
         $event->save();
 

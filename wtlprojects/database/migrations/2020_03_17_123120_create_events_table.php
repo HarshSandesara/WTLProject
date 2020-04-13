@@ -18,7 +18,9 @@ class CreateEventsTable extends Migration
             $table->bigInteger('committee_id')->unsigned();
             $table->foreign('committee_id')->references('id')->on('committees'); // Agar committee delete hua to past events mein fir bhi dikhna chahiye data
             $table->string('name');
-            $table->date('when');
+            $table->dateTime('from');
+            $table->dateTime('to');
+            $table->bigInteger('price')->unsigned();
             $table->timestamps();
         });
     }
