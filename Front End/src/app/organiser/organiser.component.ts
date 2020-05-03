@@ -50,9 +50,6 @@ export class OrganiserComponent implements OnInit {
     this.EventArray.push(this.newEventDetails);
     document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
   }
-  addNewEvent() {
-    //alert(document.getElementById('EventName').value+document.getElementById('EventFees').value+document.getElementById('EventDateFrom').value+document.getElementById('EventTimeFrom').value+document.getElementById('EventDateTo').value+document.getElementById('EventTimeTo').value);
-  }
   onSubmit() {
     console.log(this.EventArray);
   }

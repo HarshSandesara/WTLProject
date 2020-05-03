@@ -133,7 +133,7 @@
         <form *ngIf="i%2==0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
           <!-- <h4>Event Id: {{ event.id }}</h4> -->
           <tr class="row">
-            <td class="border-0 col-md-9 fantasy"><h4>{{ event.name }}</h4></td>
+            <td class="border-0 col-md-9 monotypeCorsiva"><h4>{{ event.name }}</h4></td>
             <td class="btn btn-info-inverted col-md-2 margin-right text-center">Follow Events</td>
           </tr> 
           <!-- <h4>Event Start Date and Time: {{ event.from }}</h4>
@@ -167,7 +167,7 @@
         <form *ngIf="i%2!=0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
           <!-- <h4>Event Id: {{ event.id }}</h4> -->
           <tr class="row">
-            <td class="border-0 col-md-7 fantasy"><h4>{{ event.name }}</h4></td>
+            <td class="border-0 col-md-7 monotypeCorsiva"><h4>{{ event.name }}</h4></td>
             <td class="btn btn-info-inverted col-md-2 text-center">Register</td>
             <td class="btn btn-info-inverted col-md-2 margin-left margin-right text-center">Follow Events</td>
           </tr> 
@@ -241,9 +241,9 @@
   </div>
   <div *ngIf="EditProfile">
     <div class="container margin-top max-width fadeIn">
-      <table class="margin-top table table-bordered fantasy">
+      <table class="margin-top table table-bordered monotypeCorsiva">
         <tr>
-          <th class="fantasy btn-info-inverted text-center">
+          <th class="monotypeCorsiva btn-info-inverted text-center">
             <h3>
               Your Profile
             </h3>

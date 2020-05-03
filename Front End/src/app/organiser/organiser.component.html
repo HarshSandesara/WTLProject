@@ -118,159 +118,70 @@
     <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events">
   </div>
 </div>
+
 <div *ngIf=CommitteesIsShow class="panel">
-  <!-- <div *ngFor="let event of eventsData" class="container" id="events">
-    <form class="ml-2 mt-2" id="form_{{ event.id }}">
-      <h4>Event Id: {{ event.id }}</h4>
-      <h4>Event Name: {{ event.name }}</h4> 
-      <h4>Event Start Date and Time: {{ event.from }}</h4>
-      <h4>Event End Date and Time: {{ event.to }}</h4>
-      <h4>Registration Fees:{{ event.price }}</h4>
-      <div class="d-flex">
-        <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
-        <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button>
-      </div>
-    </form>
-    <hr>
-  </div>   -->
-  <!-- <div class="container">
-      <br>
-      <hr>
-      <h1>Event Name</h1>
-      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
-      <br>Committee Name, Time Remaining
-      <hr>
-      <h1>Event Name</h1>
-      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
-      <br>Committee Name, Time Remaining
-      <hr>
-      <h1>Event Name</h1>
-      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
-      <br>Committee Name, Time Remaining
-      <hr>
-      <h1>Event Name</h1>
-      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
-      <br>Committee Name, Time Remaining
-      <hr>
-    </div> -->
-    <!-- <hr> -->
-    <!-- <div class="container">
-      <div class="text-center">
-        <form [formGroup]="newEventData" (ngSubmit)="addEvent()">
-          <input type="submit" id="addbutton" value="+" class="btn btn-danger addNewEventButton">
-          <div id="newEventNameDiv" class="form-group">
+  <form [formGroup]="newEventData" (ngSubmit)="addEvent()" class="fadeIn">
+    <div class="container contained">
+      <div class="btn-info-inverted padding">
+        <div class="form-row">
+          <div id="newEventNameDiv" class="col-sm-6">
             <label for="newEventName">
-              <h4>Event Name:</h4>
+              Event Name
             </label>
-            <input id="newEventName" value="Event Name" type="text" class="form-control" formControlName="newEventName" style="width: 30%; margin: 0 auto;">
+            <input id="newEventName" value="Event Name" type="text" class="form-control" formControlName="newEventName" >
           </div>
-          <div class="form-group">
-            <label for="newEventStartDate">
-              <h4>Event Start Date:</h4>
-            </label>
-            <input id="newEventStartDate" type="date" class="form-control btn-danger" formControlName="newEventStartDate" style="width: 30%; margin: 0 auto;">
-          </div>
-          <div class="form-group">
-            <label for="newEventStartTime">
-              <h4>Event Start Time:</h4>
-            </label>
-            <input id="newEventStartTime" type="time" class="form-control btn-danger" formControlName="newEventStartTime" style="width: 30%; margin: 0 auto;">
-          </div>
-          <div class="form-group">
-            <label for="newEventEndDate">
-              <h4>Event End Date:</h4>
-            </label>
-            <input id="newEventEndDate" type="date" class="form-control btn-danger" formControlName="newEventEndDate" style="width: 30%; margin: 0 auto;">
-          </div>
-          <div class="form-group">
-            <label for="newEventEndTime">
-              <h4>Event End Time:</h4>
-            </label>
-            <input id="newEventEndTime" type="time" class="form-control btn-danger" formControlName="newEventEndTime" style="width: 30%; margin: 0 auto;">
-          </div>
-          <div class="form-group">
+          <div class="col-sm-6">
             <label for="newEventPrice">
-              <h4>Registration Fees:</h4>
+              Registration Fees
             </label>
-            <input id="newEventPrice" type="number" class="form-control btn-danger" formControlName="newEventPrice" style="width: 30%; margin: 0 auto;">
-          </div>
-          <hr>
-        </form>        
-      </div>
-      <div class="text-center" id="parentdiv">
-        <input type="button" id="addEvent" class="button cbutton" (click)=openNewEvent(this) value="Add Event">
-      </div> -->
-      
-      <!-- <div *ngIf=NewEventIsShow>
-        <hr>
-        Event Name: <input type="text"><br>
-        <input type="button" class="button cbutton float-right" value="Add"><br>
-        Event Date:
-        <select>
-          <option *ngFor="let month of months">{{month}}</option>
-      </select>
-      
-      <select>
-        <option *ngFor="let day of days">{{day}}</option>
-      </select>
-    
-      <select>
-        <option *ngFor="let year of years">{{year}}</option>
-      </select>
-      <hr>
-      <input type="button" class="button cbutton" (click)=openNewEvent() value="Add Event">
-      </div> -->
-    <!-- </div> -->
-    <form (ngSubmit) = "onSubmit()" class="fadeIn">
-      <div class="container contained">
-        <div class=" btn-info-inverted padding" *ngFor="let newEventDetails of EventArray">
-          <div class="form-row">
-            <div class="col-sm-6">
-              <label>Event Name</label>
-              <input type="text" id="EventName" class="form-control" name="name" placeholder="Event Name" [(ngModel)]="newEventDetails.name">
-            </div>
-
-            <div class="col-sm-6">
-              <label>Fees</label>
-              <input type="number" id="EventFees" class="form-control" name="fees" placeholder="Fees" [(ngModel)]="newEventDetails.fees">
-            </div>
-          </div>
-          <br>
-
-          <div class="form-row">
-            <div class="col-sm-6">
-              <label>Start Date</label>
-              <input type="date" id="EventDateFrom" class="form-control" name="dateFrom" [(ngModel)]="newEventDetails.dateFrom">
-            </div>
-
-            <div class="col-sm-6">
-              <label>Start Time</label>
-              <input type="time" id="EventTimeFrom" class="form-control" name="timeFrom" [(ngModel)]="newEventDetails.timeFrom">
-            </div>
-          </div>
-          <br>
-
-          <div class="form-row">
-            <div class="col-sm-6">
-              <label>End Date</label>
-              <input type="date" id="EventDateTo" class="form-control" name="dateTo" [(ngModel)]="newEventDetails.dateTo">
-            </div>
-
-            <div class="col-sm-6">
-              <label>End Time</label>
-              <input type="time" id="EventTimeTo" class="form-control" name="timeTo" [(ngModel)]="newEventDetails.timeTo">
-            </div>
+            <input id="newEventPrice" type="number" class="form-control" formControlName="newEventPrice">
           </div>
         </div>
-        <input type="button" class="btn btn-info btn-info-inverted input-center" value="Add" (click)="addNewEvent()">
-      </div>
-    </form>
+        <br>
+        <div class="form-row">
+          <div class="col-sm-6">
+            <label for="newEventStartDate">
+              Start Date
+            </label>
+            <input id="newEventStartDate" type="date" class="form-control" formControlName="newEventStartDate">
+          </div>
+          <div class="col-sm-6">
+            <label for="newEventStartTime">
+              Start Time
+            </label>
+            <input id="newEventStartTime" type="time" class="form-control" formControlName="newEventStartTime">
+          </div>
+        </div>
+        <br>
+        <div class="form-row">
+          <div class="col-sm-6">
+            <label for="newEventEndDate">
+              End Date
+            </label>
+            <input id="newEventEndDate" type="date" class="form-control" formControlName="newEventEndDate">
+          </div>
+          <div class="col-sm-6">
+            <label for="newEventEndTime">
+              End Time
+            </label>
+            <input id="newEventEndTime" type="time" class="form-control" formControlName="newEventEndTime">
+          </div>
+        </div>
+        <br>
+      </div>        
+    </div>
+    <!-- <div class="text-center" id="parentdiv">
+      <input type="button" id="addEvent" class="button cbutton" (click)=openNewEvent(this) value="Add Event">
+    </div> -->
+    <input type="submit" id="addbutton" class="btn btn-info btn-info-inverted input-center" value="Add">
+  </form>
 </div>
+
 <div *ngIf="EditProfile">
   <div class="container margin-top max-width fadeIn">
-    <table class="margin-top table table-bordered fantasy">
+    <table class="margin-top table table-bordered monotypeCorsiva">
       <tr>
-        <th class="fantasy btn-info-inverted text-center">
+        <th class="monotypeCorsiva btn-info-inverted text-center">
           <h3>
             Your Profile
           </h3>
@@ -337,3 +248,105 @@
   </div>
 </div>
 </html>
+
+<!-- <div *ngFor="let event of eventsData" class="container" id="events">
+    <form class="ml-2 mt-2" id="form_{{ event.id }}">
+      <h4>Event Id: {{ event.id }}</h4>
+      <h4>Event Name: {{ event.name }}</h4> 
+      <h4>Event Start Date and Time: {{ event.from }}</h4>
+      <h4>Event End Date and Time: {{ event.to }}</h4>
+      <h4>Registration Fees:{{ event.price }}</h4>
+      <div class="d-flex">
+        <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
+        <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button>
+      </div>
+    </form>
+    <hr>
+  </div>   -->
+  <!-- <div class="container">
+      <br>
+      <hr>
+      <h1>Event Name</h1>
+      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+      <br>Committee Name, Time Remaining
+      <hr>
+      <h1>Event Name</h1>
+      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+      <br>Committee Name, Time Remaining
+      <hr>
+      <h1>Event Name</h1>
+      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+      <br>Committee Name, Time Remaining
+      <hr>
+      <h1>Event Name</h1>
+      <input type="button" style="align-items: center;" class="button float-right cbutton" value="Register Now">
+      <br>Committee Name, Time Remaining
+      <hr>
+    </div> -->
+    <!-- <hr> -->
+
+    <!-- <div *ngIf=NewEventIsShow>
+        <hr>
+        Event Name: <input type="text"><br>
+        <input type="button" class="button cbutton float-right" value="Add"><br>
+        Event Date:
+        <select>
+          <option *ngFor="let month of months">{{month}}</option>
+      </select>
+      
+      <select>
+        <option *ngFor="let day of days">{{day}}</option>
+      </select>
+    
+      <select>
+        <option *ngFor="let year of years">{{year}}</option>
+      </select>
+      <hr>
+      <input type="button" class="button cbutton" (click)=openNewEvent() value="Add Event">
+      </div> -->
+    <!-- </div> -->
+
+    <!-- <form (ngSubmit) = "onSubmit()" class="fadeIn">
+      <div class="container contained">
+        <div class="btn-info-inverted padding" *ngFor="let newEventDetails of EventArray">
+          <div class="form-row">
+            <div class="col-sm-6">
+              <label>Event Name</label>
+              <input type="text" id="EventName" class="form-control" name="name" placeholder="Event Name" [(ngModel)]="newEventDetails.name">
+            </div>
+
+            <div class="col-sm-6">
+              <label>Registration Fees</label>
+              <input type="number" id="EventFees" class="form-control" name="fees" placeholder="Registration Fees" [(ngModel)]="newEventDetails.fees">
+            </div>
+          </div>
+          <br>
+
+          <div class="form-row">
+            <div class="col-sm-6">
+              <label>Start Date</label>
+              <input type="date" id="EventDateFrom" class="form-control" name="dateFrom" [(ngModel)]="newEventDetails.dateFrom">
+            </div>
+
+            <div class="col-sm-6">
+              <label>Start Time</label>
+              <input type="time" id="EventTimeFrom" class="form-control" name="timeFrom" [(ngModel)]="newEventDetails.timeFrom">
+            </div>
+          </div>
+          <br>
+
+          <div class="form-row">
+            <div class="col-sm-6">
+              <label>End Date</label>
+              <input type="date" id="EventDateTo" class="form-control" name="dateTo" [(ngModel)]="newEventDetails.dateTo">
+            </div>
+
+            <div class="col-sm-6">
+              <label>End Time</label>
+              <input type="time" id="EventTimeTo" class="form-control" name="timeTo" [(ngModel)]="newEventDetails.timeTo">
+            </div>
+          </div>
+        </div>
+        <input type="button" class="btn btn-info btn-info-inverted input-center" value="Add" (click)="addNewEvent()">
+      </div>
+    </form> -->
