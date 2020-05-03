@@ -27,7 +27,7 @@ Route::get('/home', 'EventController@index');
 Route::post('/events', 'EventController@store');
 Route::view('/committee', 'committee');
 
-Route::get('/login/committee', 'Auth\LoginController@showCommitteeLoginForm');
+Route::get('/login/committee', 'Auth\LoginController@showCommitteeLoginForm')->name('login/committee');
 Route::get('/register/committee', 'Auth\RegisterController@showCommitteeRegisterForm');
 
 Route::post('/login/committee', 'Auth\LoginController@committeeLogin');

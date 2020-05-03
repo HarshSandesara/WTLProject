@@ -1,25 +1,23 @@
+<html>
 <div class="ribbon">
     <span class="headsize">Hello, {{name}}!</span>
-    <div class="row">
-        <div class="col-md-3 text-center tab cursor" (click)=openCalendar()>Calendar</div>
-        <div class="col-md-3 text-center tab cursor" (click)=openEvents()>Events</div>
-        <div class="col-md-3 text-center tab cursor" (click)=openCommittees()>Committees</div>
-        <div class="col-md-3 text-center tab cursor" (click)=openProfile()>Profile</div>
+    <div class="row mx-auto">
+        <div class="col-md-4 text-center tab cursor" id="timeline" (click)=openTimeline()>Timeline</div>
+        <div class="col-md-4 text-center tab cursor" id="committees" (click)=openCommittees()>Committees</div>
+        <div class="col-md-4 text-center tab cursor" id="profile" (click)=openProfile()>Profile</div>
     </div>
 </div>
-<div class="profile" *ngIf = "ProfileIsShow">
+<div class="profile fadeIn" *ngIf = "ProfileIsShow">
     <img class="profileImage" src="/assets/ribbon4.jpg">
     {{name}}<br>
     <hr>
-    Edit Profile
+    <span class="cursor" (click)="openEditProfile()">Edit Profile</span>
     <hr>
     <a *ngIf="isOrganiser" href = "#" routerLink = "/organiser">Organiser Mode</a>
     <hr>
-    Settings
-    <hr>
     Logout
 </div>
-<div class="content" *ngIf=CalendarIsShow>
+<!-- <div class="content" *ngIf=CalendarIsShow>
     <div class="calendar-container">
       <div class="calendar">
         <div class="year-header">
@@ -79,36 +77,121 @@
           </div>
         </form>
       </div>
+  </div> -->
+  <div *ngIf=TimelineIsShow>
+    <div class="timeline fadeIn" style="text-align: center;">
+      <input type="button" class="center-block btn-info btn-info-inverted" value="Past Events">
+      <div class="fadeIn" *ngFor = "let event of eventsData; index as i">
+        <div *ngIf="i%2 == 0, else elseblock" class="newcontainer left">
+            <div class="container mycontent">
+              <form class="ml-2 mt-2" id="form_{{ event.id }}">
+                <!-- <h4>Event Id: {{ event.id }}</h4> -->
+                <h2><b>{{ event.name }}</b></h2>
+                <h4><b>From:</b> {{ event.from | date }}, {{ event.from | slice: 10:-3}}</h4>
+                <h4><b>To:</b> {{ event.to | date }}, {{ event.to | slice: 10:-3}}</h4>
+                <h4><b>Registration Fees:</b> ₹{{ event.price }}</h4>
+                <div class="d-inline-flex">
+                  <!-- <button class="btn btn-info ml-2 fadeIn" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
+                  <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
+                  <button class="btn btn-info ml-2" type="button">Register</button>
+                </div>
+              </form>
+            </div>
+        </div>
+        <ng-template #elseblock>
+          <div class="newcontainer right">
+              <div class="mycontent">
+                <form class="ml-2 mt-2" id="form_{{ event.id }}">
+                  <!-- <h4>Event Id: {{ event.id }}</h4> -->
+                  <h2><b>{{ event.name }}</b></h2> 
+                  <h4><b>From:</b> {{ event.from | date }}, {{ event.from | slice: 10:-3}}</h4>
+                  <h4><b>To:</b> {{ event.to | date }}, {{ event.to | slice: 10:-3}}</h4>
+                  <h4><b>Registration Fees:</b> ₹{{ event.price }}</h4>
+                  <div class="d-inline-flex">
+                    <!-- <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
+                    <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
+                    <button class="btn btn-info ml-2" type="button">Register</button>
+                  </div>
+                </form>
+              </div>
+          </div>
+        </ng-template>
+      </div>
+      <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events">
+    </div>
   </div>
-  <div *ngIf=EventsIsShow class="timeline">
-    <div class="newcontainer left">
-        <div class="mycontent">
-        <h2>March 16</h2>
-        <p>Corona Vacation Starts</p>
-        </div>
-    </div>
-    <div class="newcontainer right">
-        <div class="mycontent">
-        <h2>March 31</h2>
-        <p>Corona Vacation Ends</p>
-        </div>
-    </div>
-  </div>
-  <div *ngIf=CommitteesIsShow class="panel">
-    <div *ngFor="let event of eventsData" class="container" id="events">
-      <form class="ml-2 mt-2" id="form_{{ event.id }}">
-        <h4>Event Id: {{ event.id }}</h4>
-        <h4>Event Name: {{ event.name }}</h4> 
-        <h4>Event Start Date and Time: {{ event.from }}</h4>
-        <h4>Event End Date and Time: {{ event.to }}</h4>
-        <h4>Registration Fees: {{ event.price }}</h4>
-        <div class="d-flex">
-          <button class="btn btn-primary ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
-          <button class="btn btn-primary ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
-        </div>
-      </form>
-      <hr>
-    </div>
+  <div *ngIf=CommitteesIsShow class="container max-width">
+    <table class="container margin-top table table-condensed table-bordered center-block fadeIn">
+      <tr>
+        <th class="text-center btn-info-inverted">
+          <h3>
+            Committees You've Registered To
+          </h3>
+        </th>
+    </tr>
+      <div *ngFor="let event of eventsData; index as i" class="container" id="events">
+        <form *ngIf="i%2==0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
+          <!-- <h4>Event Id: {{ event.id }}</h4> -->
+          <tr class="row">
+            <td class="border-0 col-md-9 fantasy"><h4>{{ event.name }}</h4></td>
+            <td class="btn btn-info-inverted col-md-2 margin-right text-center">Follow Events</td>
+          </tr> 
+          <!-- <h4>Event Start Date and Time: {{ event.from }}</h4>
+          <h4>Event End Date and Time: {{ event.to }}</h4>
+          <h4>Registration Fees: {{ event.price }}</h4>
+          <div class="d-flex">
+            <button class="btn btn-primary ml-2 btn-info" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+            <button class="btn btn-primary ml-2 btn-info" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+          </div> -->
+        <hr>
+        </form>
+        <!-- <ng-template #elseblock>
+          <form class="ml-2 mt-2 btn-info-inverted">
+            <h4>Event Id: {{ event.id }}</h4>
+            <h4>Committee Name: {{ event.name }}</h4>
+            <div class="d-flex">
+              <button class="btn btn-primary ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+              <button class="btn btn-primary ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+            </div>
+          </form>
+        </ng-template> -->
+      </div>
+      <tr>
+        <th class="text-center btn-info-inverted">
+          <h3>
+            Other Committees
+          </h3>
+        </th>
+      </tr>
+      <div *ngFor="let event of eventsData; index as i" class="container" id="events">
+        <form *ngIf="i%2!=0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
+          <!-- <h4>Event Id: {{ event.id }}</h4> -->
+          <tr class="row">
+            <td class="border-0 col-md-7 fantasy"><h4>{{ event.name }}</h4></td>
+            <td class="btn btn-info-inverted col-md-2 text-center">Register</td>
+            <td class="btn btn-info-inverted col-md-2 margin-left margin-right text-center">Follow Events</td>
+          </tr> 
+          <!-- <h4>Event Start Date and Time: {{ event.from }}</h4>
+          <h4>Event End Date and Time: {{ event.to }}</h4>
+          <h4>Registration Fees: {{ event.price }}</h4>
+          <div class="d-flex">
+            <button class="btn btn-primary ml-2 btn-info" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+            <button class="btn btn-primary ml-2 btn-info" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+          </div> -->
+        <hr>
+        </form>
+        <!-- <ng-template #elseblock>
+          <form class="ml-2 mt-2 btn-info-inverted">
+            <h4>Event Id: {{ event.id }}</h4>
+            <h4>Committee Name: {{ event.name }}</h4>
+            <div class="d-flex">
+              <button class="btn btn-primary ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit!</button>
+              <button class="btn btn-primary ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete!</button>
+            </div>
+          </form>
+        </ng-template> -->
+      </div>
+    </table>
       <!-- <div class="container">
         <br>
         <hr>
@@ -156,3 +239,74 @@
         </div> -->
       <!-- </div> -->
   </div>
+  <div *ngIf="EditProfile">
+    <div class="container margin-top max-width fadeIn">
+      <table class="margin-top table table-bordered fantasy">
+        <tr>
+          <th class="fantasy btn-info-inverted text-center">
+            <h3>
+              Your Profile
+            </h3>
+          </th>
+        </tr>
+        <tr class="text-center">
+          <td>
+            <img class="profileImage profileImageLarge" src="assets/ribbon4.jpg">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Name</h6>
+            <div class="input-group">
+            <input class="form-control max-width" type="text" value="{{name}}">
+            <input type="button" class="btn-info-inverted" value="Edit">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Email Address</h6>
+            <input class="form-control max-width" type="text" value="sandesara.harsh@gmail.com (Uneditable)">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Password</h6>
+            <div class="input-group">
+            <input class="form-control max-width" type="password" value="whateverlol">
+            <input type="button" class="btn-info-inverted" value="Edit">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Birthday</h6>
+            <input class="form-control max-width" type="text" value="9th May, 2000 (Uneditable; change type to date)">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Branch</h6>
+            <div class="input-group">
+            <input class="form-control max-width" type="text" value="Computer Engineering">
+            <input type="button" class="btn-info-inverted" value="Edit">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h6>Year</h6>
+            <div class="input-group">
+            <input class="form-control max-width" type="text" value="Second Year">
+            <input type="button" class="btn-info-inverted" value="Edit">
+            </div>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      <input type="button" class="margin-bottom btn-info-inverted" value="Done" (click)="saveChanges()">
+      <input type="button" class="margin-bottom btn-info-inverted" value="Cancel" (click)="cancelChanges()">
+    </div>
+  </div>
+  </html>

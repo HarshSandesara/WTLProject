@@ -4,6 +4,15 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from '../shared/Events';
 
+class EventDetails {
+  name: any
+  dateFrom: any
+  timeFrom: any
+  dateTo: any
+  timeTo: any
+  fees: any
+}
+
 @Component({
   selector: 'app-organiser',
   templateUrl: './organiser.component.html',
@@ -17,14 +26,14 @@ export class OrganiserComponent implements OnInit {
   committee_id=6; // Hardcoded
   name='Harsh Sandesara'; // Hardcoded
   ProfileIsShow = false;
-  CalendarIsShow = false;
-  EventsIsShow = false;
-  CommitteesIsShow = true;
-  NewEventIsShow = false;
-  months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-  years = [2020, 2021, 2022, 2023];
-
+  TimelineIsShow = true;
+  CommitteesIsShow = false;
+  EditProfile = false;
+  tempCommittees = this.CommitteesIsShow;
+  tempTimeline = this.TimelineIsShow;
+  //NewEventIsShow = false;
+  newEventDetails = new EventDetails();
+  EventArray = [];
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit() {
@@ -37,6 +46,15 @@ export class OrganiserComponent implements OnInit {
       newEventEndTime: new FormControl(""),
       newEventPrice: new FormControl("")
     });
+    this.newEventDetails = new EventDetails();
+    this.EventArray.push(this.newEventDetails);
+    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
+  }
+  addNewEvent() {
+    //alert(document.getElementById('EventName').value+document.getElementById('EventFees').value+document.getElementById('EventDateFrom').value+document.getElementById('EventTimeFrom').value+document.getElementById('EventDateTo').value+document.getElementById('EventTimeTo').value);
+  }
+  onSubmit() {
+    console.log(this.EventArray);
   }
   compareDates(a, b) {
     const dateA = a.from;
@@ -115,22 +133,35 @@ export class OrganiserComponent implements OnInit {
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;
-    console.log(this.ProfileIsShow);
+    //console.log(this.ProfileIsShow);
   }
-  openCalendar(){
-    this.CalendarIsShow = true;
-    this.EventsIsShow = false
-    this.CommitteesIsShow = false
-  }
-  openEvents(){
-    this.EventsIsShow = true;
-    this.CalendarIsShow = false
-    this.CommitteesIsShow = false
+  // openCalendar(){
+  //   this.TimelineIsShow = false
+  //   this.CommitteesIsShow = false
+  // }
+  openTimeline(){
+    this.EditProfile = false;
+    this.TimelineIsShow = true;
+    this.CommitteesIsShow = false;
+    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
+    document.getElementById('committees').style.backgroundColor = "rgba(4, 110, 184, 0)";
+    this.ProfileIsShow = false;
   }
   openCommittees(){
+    this.EditProfile = false;
     this.CommitteesIsShow = true;
-    this.EventsIsShow = false
-    this.CalendarIsShow = false
+    this.TimelineIsShow = false;
+    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0)";
+    document.getElementById('committees').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
+    this.ProfileIsShow = false;
+  }
+  openEditProfile() {
+    this.tempCommittees = this.CommitteesIsShow;
+    this.tempTimeline = this.TimelineIsShow;
+    this.CommitteesIsShow = false;
+    this.TimelineIsShow = false;
+    this.ProfileIsShow = false;
+    this.EditProfile = true;
   }
   openNewEvent(event:any){
     // Create add button
@@ -155,5 +186,16 @@ export class OrganiserComponent implements OnInit {
     // var parent = refNode.parentNode
     // parent.insertBefore(element, refNode)
     // document.getElementById('parentdiv').insertBefore(button, element)
+  }
+  saveChanges() {
+    this.EditProfile = false;
+    this.CommitteesIsShow = this.tempCommittees;
+    this.TimelineIsShow = this.tempTimeline;
+  }
+
+  cancelChanges() {
+    this.EditProfile = false;
+    this.CommitteesIsShow = this.tempCommittees;
+    this.TimelineIsShow = this.tempTimeline;
   }
 }

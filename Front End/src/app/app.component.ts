@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-root',

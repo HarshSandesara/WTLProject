@@ -1,12 +1,19 @@
+* {
+    animation-duration: 2s;
+}
+
+.fantasy {
+    font-family: fantasy;
+}
+
 .ribbon{
-    background-image: url("/assets/ribbon4.jpg");
+    background-image: url("/assets/ribbon5.jpg");
     background-size: cover;
     background-position: top;
     color: white;
     font-family: fantasy;
     display: inline-block;
     width: 100%;
-    margin-top: 10px;
 }
 .tab{
     font-size: 20px;
@@ -14,7 +21,7 @@
 }
 
 div.tab:hover{
-    transform: scale(1.2);
+    background-color: rgba(4, 110, 184, 0.5);
 }
 .headsize{
     font-size: 30px;
@@ -38,6 +45,12 @@ div.tab:hover{
     height: 30px;
     width: 30px;
     margin-right: 10px;
+}
+
+.profileImageLarge{
+    height: 150px;
+    width: 150px;
+    display: inline-block;
 }
 
 body {
@@ -416,15 +429,35 @@ body {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
     z-index: 1;
   }
+  
+  @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+ 
+ .fadeIn {
+    animation-name: fadeIn;
+ }
+
+ @keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ .fadeOut {
+    animation-name: fadeOut;
+ }
 
   /* The actual timeline (the vertical ruler) */
   .timeline::after {
     content: '';
     position: absolute;
     width: 6px;
-    background-color: lightslategray;
+    background-color: rgb(2, 169, 213);
     top: 0;
     bottom: 0;
     left: 50%;
@@ -449,9 +482,9 @@ body {
     position: absolute;
     width: 25px;
     height: 25px;
-    right: -13px;
-    background-color: lightslategray;
-    border: 4px solid #FF9F55;
+    right: -12.5px;
+    background-color: rgb(2, 169, 213);
+    border: 4px solid rgb(4, 110, 184);
     top: 15px;
     border-radius: 50%;
     z-index:2;
@@ -482,7 +515,7 @@ body {
     right: 30px;
     border: medium solid white;
     border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent lightslategray;
+    border-color: transparent transparent transparent rgb(2, 47, 127);
   }
 
   /* Add arrows to the right container (pointing left) */
@@ -496,19 +529,20 @@ body {
     left: 30px;
     border: medium solid white;
     border-width: 10px 10px 10px 0;
-    border-color: transparent lightslategray transparent transparent;
+    border-color: transparent rgb(2, 47, 127) transparent transparent;
   }
 
   /* Fix the circle for containers on the right side */
   .right::after {
-    left: -16px;
+    left: -12.5px;
     z-index: 1;
   }
 
   /* The actual content */
   .mycontent {
+    font-family: fantasy;
     padding: 20px 30px;
-    background-color: lightslategray;
+    background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 50%, rgb(2, 47, 127) 100%);
     position: relative;
     border-radius: 6px;
     z-index: 1;
@@ -516,4 +550,65 @@ body {
 
 .cursor{
     cursor: pointer;
+}
+
+.addNewEventButton{
+    background: linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%);
+    border: none;
+    border-radius: 100%;
+    float: right;
+}
+
+.btn-info {
+    color: rgb(2, 169, 213);
+    background-color: white;
+    border: none;
+}
+
+.btn-info-input {
+    opacity: 0.7;
+}
+
+.btn-info-inverted {
+    border-radius: 5px;
+    font-size: larger;
+    font-family: fantasy;
+    position: relative;
+    color: white;
+    background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 100%);
+    z-index: 5;
+}
+
+.padding{
+    padding: 30px;
+    margin: 10px;
+}
+
+.input-center {
+    display: block;
+    margin: 0 auto;
+}
+
+.contained {
+    width: 40%;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.max-width {
+    max-width: 50%;
 }
