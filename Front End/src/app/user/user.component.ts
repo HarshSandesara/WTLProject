@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Event } from '../shared/Events';
 
 @Component({
   selector: 'app-user',

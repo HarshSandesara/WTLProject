@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from '../shared/Events';
-
 
 @Component({
   selector: 'app-organiser',
   templateUrl: './organiser.component.html',
   styleUrls: ['./organiser.component.css']
 })
+
 export class OrganiserComponent implements OnInit {
   isOrganiser=true; // hardcoded
   eventsData;
   newEventData;
   committee_id=6; // Hardcoded
-  name='Harsh Sandesara';
+  name='Harsh Sandesara'; // Hardcoded
   ProfileIsShow = false;
   CalendarIsShow = false;
   EventsIsShow = false;
@@ -24,6 +24,7 @@ export class OrganiserComponent implements OnInit {
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
   years = [2020, 2021, 2022, 2023];
+
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit() {
@@ -53,7 +54,11 @@ export class OrganiserComponent implements OnInit {
     this.dataService.fetchEvents().subscribe( res =>{
       console.log("Events Data Fetched: ", res);
       this.eventsData = res['data'];
-      this.eventsData.sort(this.compareDates);      
+      // for (var i = 0; i < this.eventsData.length; i++) {
+      //   this.eventsData[i].isShow = false;
+      // }
+      this.eventsData.sort(this.compareDates);
+      // console.log(this.eventsData);      
     });
   }
   deleteEvent(id: number) {
