@@ -17,18 +17,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home', 'EventController@index');
+// Route::get('/home', ['middleware' => 'auth', 'uses' => 'EventController@index']);
 // Route::get('/events/{id}', 'EventController@show');
-Route::post('/events', 'EventController@store');
-Route::view('/committee', 'committee');
+// Route::get('/committee', ['middleware' => 'auth.committee', function() {
+//         return view('committee');
+//     }
+// ]);
 
 Route::get('/login/committee', 'Auth\LoginController@showCommitteeLoginForm')->name('login/committee');
 Route::get('/register/committee', 'Auth\RegisterController@showCommitteeRegisterForm');
 
+Route::post('/events', 'EventController@store');
 Route::post('/login/committee', 'Auth\LoginController@committeeLogin');
 Route::post('/register/committee', 'Auth\RegisterController@createCommittee');
+
+Route::get('/home', 'EventController@index') -> middleware('auth');
+Route::view('/committee', 'committee') -> middleware('auth:committee');
+// Route::view('/home', 'index') -> middleware('auth');
+

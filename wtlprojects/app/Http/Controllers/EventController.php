@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Event;
+use App\User;
 use App\Http\Resources\Event as EventResource;
 use App\Http\Resources\EventCollection;
 use App\Committee;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
@@ -26,14 +28,20 @@ class EventController extends Controller
             // Sort the events by their date and time.
             return $event->from;
         });
-        return view('home', [
-            'events' => $sortedEvents
-        ]);
+        // return view('home', [
+        //     'events' => $sortedEvents
+        // ]);
+        return Redirect::away('http://localhost:4200/organiser');
     }
 
     public function indexApi()
     {
         return new EventCollection(Event::all());
+    }
+
+    public function loginDataApi() {
+        $user = Auth::user();
+        return $user;
     }
 
     public function show($id)

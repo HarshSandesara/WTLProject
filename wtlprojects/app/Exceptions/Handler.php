@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Exceptions;
-use Illuminate\Auth\AuthenticationException;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+use Auth;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -62,5 +64,18 @@ class Handler extends ExceptionHandler
             return redirect()->guest('/login/committee');
         }
         return redirect()->guest(route('login'));
+        // if (in_array('committee', $exception->guards())) {
+        //     return $request->expectsJson()
+        //         ? response()->json([
+        //               'message' => $exception->getMessage()
+        //         ], 401)
+        //         : redirect()->guest(route('/login/committee'));
+        // }
+
+        // return $request->expectsJson()
+        // ? response()->json([
+        //       'message' => $exception->getMessage()
+        // ], 401)
+        // : redirect()->guest(route('login'));
     }
 }

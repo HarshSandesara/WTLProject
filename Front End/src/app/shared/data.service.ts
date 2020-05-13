@@ -15,7 +15,11 @@ export class DataService {
   constructor(public http: HttpClient) { }
 
   public fetchEvents() {
-    return this.http.get(this.URL+'api/events');
+    return this.http.get(this.URL + 'api/events');
+  }
+
+  public fetchLoginData() {
+    return this.http.get(this.URL + 'home');
   }
 
   private handleError(errorResponse: HttpErrorResponse) {

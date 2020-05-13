@@ -16,15 +16,23 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
+    
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($guard == "committee" && Auth::guard($guard)->check()) {
-            return redirect('/committee');
-        }
+        $js_code = 'console.log(' . json_encode($guard, JSON_HEX_TAG) . 
+    ');';
+        
+        $js_code = '<script>' . $js_code . '</script>';
+    
+        echo $js_code;
 
-        if (Auth::guard($guard)->check()) {
+        if (Auth::guard($guard)->check()) {        
+            if ($guard === "committee") {
+                return redirect('/committee');
+            }
             return redirect(RouteServiceProvider::HOME);
         }
+
         return $next($request);
     }
 }

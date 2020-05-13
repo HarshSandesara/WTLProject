@@ -4,15 +4,6 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from '../shared/Events';
 
-class EventDetails {
-  name: any
-  dateFrom: any
-  timeFrom: any
-  dateTo: any
-  timeTo: any
-  fees: any
-}
-
 @Component({
   selector: 'app-organiser',
   templateUrl: './organiser.component.html',
@@ -22,7 +13,11 @@ class EventDetails {
 export class OrganiserComponent implements OnInit {
   isOrganiser=true; // hardcoded
   eventsData;
+  displayEventsData;
   newEventData;
+  curdatetime = new Date();
+  startIndex = Number(sessionStorage.getItem('startIndex'));
+  endIndex = Number(sessionStorage.getItem('endIndex'));
   committee_id=6; // Hardcoded
   name='Harsh Sandesara'; // Hardcoded
   ProfileIsShow = false;
@@ -32,8 +27,6 @@ export class OrganiserComponent implements OnInit {
   tempCommittees = this.CommitteesIsShow;
   tempTimeline = this.TimelineIsShow;
   //NewEventIsShow = false;
-  newEventDetails = new EventDetails();
-  EventArray = [];
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit() {
@@ -46,12 +39,7 @@ export class OrganiserComponent implements OnInit {
       newEventEndTime: new FormControl(""),
       newEventPrice: new FormControl("")
     });
-    this.newEventDetails = new EventDetails();
-    this.EventArray.push(this.newEventDetails);
     document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
-  }
-  onSubmit() {
-    console.log(this.EventArray);
   }
   compareDates(a, b) {
     const dateA = a.from;
@@ -69,11 +57,63 @@ export class OrganiserComponent implements OnInit {
     this.dataService.fetchEvents().subscribe( res =>{
       console.log("Events Data Fetched: ", res);
       this.eventsData = res['data'];
-      // for (var i = 0; i < this.eventsData.length; i++) {
-      //   this.eventsData[i].isShow = false;
-      // }
-      this.eventsData.sort(this.compareDates);
-      // console.log(this.eventsData);      
+      this.eventsData.forEach(element => {
+        element.from = new Date(element.from);
+        element.to = new Date(element.to);
+      });
+      this.eventsData.sort(this.compareDates); 
+      this.displayCurrentEvents();    
+    });
+  }
+  displayCurrentEvents() {
+    console.log(sessionStorage.getItem('boolDisplayCurrentItems'));
+    if (sessionStorage.getItem('boolDisplayCurrentItems') == null || sessionStorage.getItem('boolDisplayCurrentItems') == 'false') {
+      // let curdatetime = new Date(); 
+      for (var i = 1; i < this.eventsData.length; i++) {
+        if (this.eventsData[i].from > this.curdatetime) {
+          this.startIndex = i;
+          break;
+        }
+      }
+
+      if (this.startIndex + 10 <= this.eventsData.length) {
+        this.endIndex = this.startIndex + 10;
+      } else {
+        this.endIndex = this.eventsData.length;
+      }
+      console.log(this.startIndex);
+      console.log(this.endIndex);
+      sessionStorage.setItem('startIndex', this.startIndex.toString());
+      sessionStorage.setItem('endIndex', this.endIndex.toString());
+      sessionStorage.setItem('boolDisplayCurrentItems', 'false');
+      console.log(sessionStorage.getItem('startIndex'));
+      console.log(sessionStorage.getItem('endIndex'));
+      console.log(sessionStorage.getItem('boolDisplayCurrentItems'));
+    }
+  }
+  displayPastEvents() {
+    if (this.startIndex - 10 > 0) {
+      this.startIndex = this.startIndex - 10;
+    } else {
+      this.startIndex = 0;
+    }
+    sessionStorage.setItem('startIndex', this.startIndex.toString());
+    sessionStorage.setItem('boolDisplayCurrentItems', 'true');
+    this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/organiser']);
+    });
+  }
+  
+  displayFutureEvents() {
+    if (this.endIndex + 10 < this.eventsData.length) {
+      this.endIndex = this.endIndex + 10;
+    } else {
+      this.endIndex = this.eventsData.length;
+    }
+    sessionStorage.setItem('endIndex', this.endIndex.toString());
+    sessionStorage.setItem('boolDisplayCurrentItems', 'true');
+    this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/organiser']);
     });
   }
   deleteEvent(id: number) {
@@ -105,13 +145,7 @@ export class OrganiserComponent implements OnInit {
     delete data.newEventStartTime;
     delete data.newEventEndDate;
     delete data.newEventEndTime;
-    // const newEvent: Event = {
-    //   name: data.EventName,
-    //   from: new Date(data.newEventStartDate + "T"+ data.newEventStartTime + ":00"),
-    //   to: new Date(data.newEventEndDate + "T"+ data.newEventEndTime + ":00"),
-    //   price: data.newEventPrice,
-    //   committee_id: this.committee_id
-    // }
+    
     this.dataService.postEvent(data).subscribe(
       (data: Event) => {
         console.log(data);
@@ -121,9 +155,7 @@ export class OrganiserComponent implements OnInit {
       },
       (error: any) => console.log(error)
     );
-    // console.log(data.newEventDate + "T"+ data.newEventTime + ":00");
-    // const newDate: Date = new Date(data.newEventDate + "T"+ data.newEventTime + ":00");
-    // console.log(newDate);
+    
   }
   editEvent(id: number) {
 
@@ -132,10 +164,6 @@ export class OrganiserComponent implements OnInit {
     this.ProfileIsShow = !this.ProfileIsShow;
     //console.log(this.ProfileIsShow);
   }
-  // openCalendar(){
-  //   this.TimelineIsShow = false
-  //   this.CommitteesIsShow = false
-  // }
   openTimeline(){
     this.EditProfile = false;
     this.TimelineIsShow = true;
@@ -160,30 +188,6 @@ export class OrganiserComponent implements OnInit {
     this.ProfileIsShow = false;
     this.EditProfile = true;
   }
-  openNewEvent(event:any){
-    // Create add button
-    // var button = document.createElement("input")
-    // button.setAttribute("type", "button")
-    // button.setAttribute("id", "addbutton")
-    // button.setAttribute("value", "+")
-    // button.setAttribute("(click)", "addEvent()")
-    // button.className = "btn btn-danger"
-    // button.style["background"] = "linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%)"
-    // button.style["border"] = "none"
-    // button.style["border-radius"] = "100%"
-    // button.style["float"] = "right"
-
-    // Create Div to store elements
-    // var element = document.createElement("div")
-    // var form = document.createElement("form")
-    // form.innerHTML = '<input type="button" id="addbutton" value="+" (click)="addEvent()" class="btn btn-danger" style="background: linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%);border: none;border-radius: 100%;float: right;"><div id="newEventNameDiv" class="form-group"><label for="newEventName"><h4>Event Name:</h4></label><input id="newEventName" class="form-control" type="text" style="width: 30%; margin: 0 auto;"></div><div class="form-group"><label for="newEventDate"><h4>Event Date:</h4></label><input id="newEventDate" type="date" class="form-control btn-danger" style="width: 30%; margin: 0 auto;"></div><div class="form-group"><label for="newEventTime"><h4>Event Time:</h4></label><input id="newEventTime" type="time" class="form-control btn-danger" style="width: 30%; margin: 0 auto;"></div><hr>'
-    // element.appendChild(form)
-    // form.prepend(button)
-    // var refNode = document.getElementById("addEvent")
-    // var parent = refNode.parentNode
-    // parent.insertBefore(element, refNode)
-    // document.getElementById('parentdiv').insertBefore(button, element)
-  }
   saveChanges() {
     this.EditProfile = false;
     this.CommitteesIsShow = this.tempCommittees;
@@ -196,3 +200,41 @@ export class OrganiserComponent implements OnInit {
     this.TimelineIsShow = this.tempTimeline;
   }
 }
+// const newEvent: Event = {
+    //   name: data.EventName,
+    //   from: new Date(data.newEventStartDate + "T"+ data.newEventStartTime + ":00"),
+    //   to: new Date(data.newEventEndDate + "T"+ data.newEventEndTime + ":00"),
+    //   price: data.newEventPrice,
+    //   committee_id: this.committee_id
+    // }
+// console.log(data.newEventDate + "T"+ data.newEventTime + ":00");
+    // const newDate: Date = new Date(data.newEventDate + "T"+ data.newEventTime + ":00");
+    // console.log(newDate);
+// openCalendar(){
+  //   this.TimelineIsShow = false
+  //   this.CommitteesIsShow = false
+  // }
+// openNewEvent(event:any){
+  // Create add button
+  // var button = document.createElement("input")
+  // button.setAttribute("type", "button")
+  // button.setAttribute("id", "addbutton")
+  // button.setAttribute("value", "+")
+  // button.setAttribute("(click)", "addEvent()")
+  // button.className = "btn btn-danger"
+  // button.style["background"] = "linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%)"
+  // button.style["border"] = "none"
+  // button.style["border-radius"] = "100%"
+  // button.style["float"] = "right"
+
+  // Create Div to store elements
+  // var element = document.createElement("div")
+  // var form = document.createElement("form")
+  // form.innerHTML = '<input type="button" id="addbutton" value="+" (click)="addEvent()" class="btn btn-danger" style="background: linear-gradient(to left, rgb(78, 2, 2) 0%, rgb(255, 0, 0) 100%);border: none;border-radius: 100%;float: right;"><div id="newEventNameDiv" class="form-group"><label for="newEventName"><h4>Event Name:</h4></label><input id="newEventName" class="form-control" type="text" style="width: 30%; margin: 0 auto;"></div><div class="form-group"><label for="newEventDate"><h4>Event Date:</h4></label><input id="newEventDate" type="date" class="form-control btn-danger" style="width: 30%; margin: 0 auto;"></div><div class="form-group"><label for="newEventTime"><h4>Event Time:</h4></label><input id="newEventTime" type="time" class="form-control btn-danger" style="width: 30%; margin: 0 auto;"></div><hr>'
+  // element.appendChild(form)
+  // form.prepend(button)
+  // var refNode = document.getElementById("addEvent")
+  // var parent = refNode.parentNode
+  // parent.insertBefore(element, refNode)
+  // document.getElementById('parentdiv').insertBefore(button, element)
+// }
