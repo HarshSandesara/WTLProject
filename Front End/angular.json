@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "WTLProject"
+    }
+  },
+  "defaultProject": "WTLProject",
+  "cli": {
+    "analytics": false
+  }
 }

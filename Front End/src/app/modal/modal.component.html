@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Edit Event</h4>
+  <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col sm-6">
+      <h5>Event Name:</h5>
+    </div>
+    <div class="col sm-6">
+      <h5>Fees</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col sm-6">
+      <input [(ngModel)]="event.name" type="text" class="form-control"><br>
+    </div>
+    <div class="col sm-6">
+      <input [(ngModel)]="event.fees" type="number" class="form-control"><br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col sm-12">
+      <h5>From:</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col sm-6">
+      <input [(ngModel)]="event.dateFrom" type="date" class="form-control"><br>
+    </div>
+    <div class="col sm-6">
+      <input [(ngModel)]="event.timeFrom" type="time" class="form-control"><br>
+    </div>
+  </div><div class="row">
+    <div class="col sm-12">
+      <h5>To:</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col sm-6">
+      <input [(ngModel)]="event.dateTo" type="date" class="form-control"><br>
+    </div>
+    <div class="col sm-6">
+      <input [(ngModel)]="event.timeTo" type="time" class="form-control"><br>
+    </div>
+  </div>
+  <button class="btn btn-info btn-info-inverted input-center" (click)="passBack()" type="submit">Done</button>
+</div>

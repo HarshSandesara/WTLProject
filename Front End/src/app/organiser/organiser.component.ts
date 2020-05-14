@@ -3,6 +3,8 @@ import { DataService } from '../shared/data.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from '../shared/Events';
+import { ModalComponent } from '../modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 class EventDetails {
   name: any
@@ -33,7 +35,15 @@ export class OrganiserComponent implements OnInit {
   //NewEventIsShow = false;
   newEventDetails = new EventDetails();
   EventArray = [];
-  constructor(private dataService: DataService, private router: Router) { }
+  public event = {
+    name: 'Open Mic',
+    dateFrom: '2020-03-02',
+    timeFrom: '18:30',
+    dateTo: '2020-03-02',
+    timeTo: '22:00',
+    fees: 200
+    }
+  constructor(private dataService: DataService, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getEvents();
@@ -48,6 +58,18 @@ export class OrganiserComponent implements OnInit {
     this.newEventDetails = new EventDetails();
     this.EventArray.push(this.newEventDetails);
     document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
+  }
+  openModal() {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.event = this.event;
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+      }
+    });
+    // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    //   console.log(receivedEntry);
+    // })
   }
   addNewEvent() {
     //alert(document.getElementById('EventName').value+document.getElementById('EventFees').value+document.getElementById('EventDateFrom').value+document.getElementById('EventTimeFrom').value+document.getElementById('EventDateTo').value+document.getElementById('EventTimeTo').value);
@@ -124,7 +146,16 @@ export class OrganiserComponent implements OnInit {
     // console.log(newDate);
   }
   editEvent(id: number) {
-
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.event = this.event;
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+      }
+    });
+    // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    //   console.log(receivedEntry);
+    // })
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;
