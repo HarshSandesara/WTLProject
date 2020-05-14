@@ -29,6 +29,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Committee', 'committee_user');
     }
 
+    public function registered()
+    {
+        return $this->belongsToMany('App\Event', 'event_user');
+    }
+
     protected $hidden = [
         'password', 'remember_token',
     ];

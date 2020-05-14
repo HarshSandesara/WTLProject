@@ -37,5 +37,6 @@ Route::post('/register/committee', 'Auth\RegisterController@createCommittee');
 Route::get('/home', 'EventController@index') -> middleware('auth');
 Route::get('/committee', 'EventController@index') -> middleware('auth:committee');
 Route::any('/logoutMiddle', 'EventController@logout2');
+Route::any('/committeeData', 'EventController@getCommitteeData');
 // Route::view('/home', 'index') -> middleware('auth');
 

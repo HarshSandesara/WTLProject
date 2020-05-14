@@ -12,6 +12,7 @@ use App\Committee;
 use \Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -79,6 +80,28 @@ class EventController extends Controller
     public function show($id)
     {
         return new EventResource(Event::findOrFail($id));
+    }
+
+    public function getFollowingData($id)
+    {
+        $followingData = DB::table('committee_user')->get()->where('user_id', $id);
+        return $followingData;
+    }
+
+    public function getCommitteeData() {
+        return DB::table('committees')->get();
+    }
+
+    public function follow(Request $request)
+    {
+        $user = User::find($user_id);
+        $user->following()->attach($committee_id);
+    }
+
+    public function register(Request $request)
+    {
+        $user = User::find($user_id);
+        $user->registered()->attach($event_id);
     }
 
     public function store(Request $request)

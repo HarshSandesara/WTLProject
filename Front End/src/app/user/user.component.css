@@ -1,9 +1,14 @@
+@font-face{
+	font-family: 'pristina';
+    src:url('/assets/Pristina.ttf') format('truetype');
+}
+
 * {
     animation-duration: 2s;
 }
 
-.fantasy {
-    font-family: pristina;
+.pristina {
+    font-family: 'pristina';
 }
 
 .ribbon{
@@ -11,7 +16,7 @@
     background-size: cover;
     background-position: top;
     color: white;
-    font-family: pristina;
+    font-family: 'pristina';
     display: inline-block;
     width: 100%;
 }
@@ -38,6 +43,7 @@ div.tab:hover{
     margin-top: 5px;
     padding: 10px;
     z-index: 2;
+    min-width: 200px;
 }
 
 .profileImage{
@@ -540,7 +546,7 @@ body {
 
   /* The actual content */
   .mycontent {
-    font-family: pristina;
+    font-family: 'pristina';
     padding: 20px 30px;
     background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 50%, rgb(2, 47, 127) 100%);
     position: relative;
@@ -572,7 +578,7 @@ body {
 .btn-info-inverted {
     border-radius: 5px;
     font-size: larger;
-    font-family: pristina;
+    font-family: 'pristina';
     position: relative;
     color: white;
     background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 100%);

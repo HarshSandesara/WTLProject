@@ -12,4 +12,9 @@ class Event extends Model
     {
         return $this->belongsTo('App\Committee');
     }
+
+    function registeredUsers()
+    {
+        return $this->belongsToMany('App\User', 'event_user');
+    }
 }

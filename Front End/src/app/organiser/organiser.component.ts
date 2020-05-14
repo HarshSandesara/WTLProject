@@ -25,11 +25,11 @@ export class OrganiserComponent implements OnInit {
   profileData;
   displayEventsData;
   newEventData;
+  updatedEventData;
   curdatetime = new Date();
   startIndex = Number(sessionStorage.getItem('startIndex'));
   endIndex = Number(sessionStorage.getItem('endIndex'));
-  committee_id=6; // Hardcoded
-  name='Harsh Sandesara'; // Hardcoded
+  committee_id=Number(sessionStorage.getItem('userid'));
   ProfileIsShow = false;
   TimelineIsShow = true;
   CommitteesIsShow = false;
@@ -38,14 +38,15 @@ export class OrganiserComponent implements OnInit {
   tempTimeline = this.TimelineIsShow;
   //NewEventIsShow = false;
   constructor(private dataService: DataService, private router: Router, private activated_router: ActivatedRoute,  private modalService: NgbModal, @Inject(DOCUMENT) private document: Document) { }
-  public event = {
-    name: 'Open Mic',
-    dateFrom: '2020-03-02',
-    timeFrom: '18:30',
-    dateTo: '2020-03-02',
-    timeTo: '22:00',
-    fees: 200
-  }
+  // public event = {
+  //   name: 'Open Mic',
+  //   dateFrom: '2020-03-02',
+  //   timeFrom: '18:30',
+  //   dateTo: '2020-03-02',
+  //   timeTo: '22:00',
+  //   fees: 200
+  // }
+  public event;
 
   ngOnInit() {
     this.getProfile();
@@ -90,7 +91,7 @@ export class OrganiserComponent implements OnInit {
       this.userid = Number(this.activated_router.snapshot.paramMap.get('id'));
       sessionStorage.setItem('userid', this.userid.toString());
       console.log(Number(sessionStorage.getItem('userid')));
-      this.username = this.activated_router.snapshot.paramMap.get('name');
+      this.username = this.activated_router.snapshot.paramMap.get('name').replace("+"," ");
       sessionStorage.setItem('username', this.username);
       this.useremail = this.activated_router.snapshot.paramMap.get('email');
       sessionStorage.setItem('useremail', this.useremail);
@@ -127,7 +128,11 @@ export class OrganiserComponent implements OnInit {
         element.from = new Date(element.from);
         element.to = new Date(element.to);
       });
-      this.eventsData.sort(this.compareDates); 
+      this.eventsData.sort(this.compareDates);
+      this.eventsData = this.eventsData.filter(obj => {
+        return obj.committee_id === this.committee_id;
+      }); 
+      console.log("Current Committees Events: ", this.eventsData);
       this.displayCurrentEvents();    
     });
   }
@@ -226,11 +231,89 @@ export class OrganiserComponent implements OnInit {
     
   }
   editEvent(id: number) {
+    this.event = this.eventsData.filter(obj => {
+      return obj.id === id;
+    })
+    console.log(this.event[0]);
+    // From Date
+    this.event[0].fromDate = this.event[0].from.getFullYear() + "-";
+    if ((this.event[0].from.getMonth() + 1) < 10 ) {
+      this.event[0].fromDate += "0" + this.event[0].from.getMonth() + "-";
+    } else {
+      this.event[0].fromDate += this.event[0].from.getMonth() + "-";
+    }
+    if (this.event[0].from.getDate() < 10 ) {
+      this.event[0].fromDate += "0" + this.event[0].from.getDate();
+    } else {
+      this.event[0].fromDate += this.event[0].from.getDate();
+    }
+
+    // From Time
+    if ((this.event[0].from.getHours() + 1) < 10 ) {
+      this.event[0].fromTime = "0" + this.event[0].from.getHours() + ":";
+    } else {
+      this.event[0].fromTime = this.event[0].from.getHours() + ":";
+    }
+    if (this.event[0].from.getMinutes() < 10 ) {
+      this.event[0].fromTime += "0" + this.event[0].from.getMinutes();
+    } else {
+      this.event[0].fromTime += this.event[0].from.getMinutes();
+    }
+    
+    // To Date
+    this.event[0].toDate = this.event[0].to.getFullYear() + "-";
+    if ((this.event[0].to.getMonth() + 1) < 10 ) {
+      this.event[0].toDate += "0" + this.event[0].to.getMonth() + "-";
+    } else {
+      this.event[0].toDate += this.event[0].to.getMonth() + "-";
+    }
+    if (this.event[0].to.getDate() < 10 ) {
+      this.event[0].toDate += "0" + this.event[0].to.getDate();
+    } else {
+      this.event[0].toDate += this.event[0].to.getDate();
+    }
+    
+    // To Time
+    if ((this.event[0].to.getHours() + 1) < 10 ) {
+      this.event[0].toTime = "0" + this.event[0].to.getHours() + ":";
+    } else {
+      this.event[0].toTime = this.event[0].to.getHours() + ":";
+    }
+    if (this.event[0].to.getMinutes() < 10 ) {
+      this.event[0].toTime += "0" + this.event[0].to.getMinutes();
+    } else {
+      this.event[0].toTime += this.event[0].to.getMinutes();
+    }
+    // this.event[0].fromTime = this.event[0].from.getTime(); 
+    // this.event[0].toDate = this.event[0].to.getDate(); 
+    // this.event[0].toTime = this.event[0].to.getTime(); 
+
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.event = this.event;
     modalRef.result.then((result) => {
       if (result) {
         console.log(result);
+        console.log("Hi! New event added!");
+        this.updatedEventData = {
+          'id': id,
+          'committee_id': this.committee_id,
+          'name' : result[0].name,
+          'from' : result[0].fromDate + " " + result[0].fromTime,
+          'to' : result[0].toDate + " " + result[0].toTime,
+          'price' : result[0].price
+        }
+        
+        console.log(this.updatedEventData);
+
+        this.dataService.editEvent(this.updatedEventData).subscribe(
+          () => {
+            // this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
+            //   this.router.navigate(['/organiser']);
+            // });
+            this.document.location.href = "http://localhost:4200/organiser" 
+          },
+          (error: any) => console.log(error)
+        );
       }
     });
     // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {

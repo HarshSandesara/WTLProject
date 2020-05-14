@@ -15,10 +15,10 @@
   </div>
   <div class="row">
     <div class="col sm-6">
-      <input [(ngModel)]="event.name" type="text" class="form-control"><br>
+      <input [(ngModel)]="event[0].name" type="text" class="form-control"><br>
     </div>
     <div class="col sm-6">
-      <input [(ngModel)]="event.fees" type="number" class="form-control"><br>
+      <input [(ngModel)]="event[0].price" type="number" class="form-control"><br>
     </div>
   </div>
   <div class="row">
@@ -28,10 +28,10 @@
   </div>
   <div class="row">
     <div class="col sm-6">
-      <input [(ngModel)]="event.dateFrom" type="date" class="form-control"><br>
+      <input [(ngModel)]="event[0].fromDate" type="date" class="form-control"><br>
     </div>
     <div class="col sm-6">
-      <input [(ngModel)]="event.timeFrom" type="time" class="form-control"><br>
+      <input [(ngModel)]="event[0].fromTime" type="time" class="form-control"><br>
     </div>
   </div><div class="row">
     <div class="col sm-12">
@@ -40,11 +40,21 @@
   </div>
   <div class="row">
     <div class="col sm-6">
-      <input [(ngModel)]="event.dateTo" type="date" class="form-control"><br>
+      <input [(ngModel)]="event[0].toDate" type="date" class="form-control"><br>
     </div>
     <div class="col sm-6">
-      <input [(ngModel)]="event.timeTo" type="time" class="form-control"><br>
+      <input [(ngModel)]="event[0].toTime" type="time" class="form-control"><br>
     </div>
   </div>
-  <button class="btn btn-info btn-info-inverted input-center" (click)="passBack()" type="submit">Done</button>
+  <div class="row">
+    <div class="col sm-12">
+      <h5>Description</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col sm-12">
+      <textarea class="form-control">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</textarea><br>
+    </div>
+  </div>
+  <button class="btn btn-info btn-info-inverted input-center" (click)="passBack()" type="submit">Save Changes</button>
 </div>

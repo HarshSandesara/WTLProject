@@ -10,20 +10,19 @@ import { DOCUMENT } from '@angular/common';
 })
 
 export class UserComponent implements OnInit {
-  isOrganiser=true; // hardcoded
+  isUser = false; // hardcoded
   userid = Number(sessionStorage.getItem('userid'));
   username = sessionStorage.getItem('username');
   useremail = sessionStorage.getItem('useremail');
   userpassword = sessionStorage.getItem('userpassword');
   usertype = sessionStorage.getItem('usertype');
-  eventsData;
+  eventsData = [];
+  followingData;
   profileData;
   displayEventsData;
   curdatetime = new Date();
   startIndex = Number(sessionStorage.getItem('startIndex'));
   endIndex = Number(sessionStorage.getItem('endIndex'));
-  committee_id=6; // Hardcoded
-  name='Harsh Sandesara';
   ProfileIsShow = false;
   TimelineIsShow = true;
   CommitteesIsShow = false;
@@ -57,7 +56,7 @@ export class UserComponent implements OnInit {
       this.userid = Number(this.activated_router.snapshot.paramMap.get('id'));
       sessionStorage.setItem('userid', this.userid.toString());
       console.log(Number(sessionStorage.getItem('userid')));
-      this.username = this.activated_router.snapshot.paramMap.get('name');
+      this.username = this.activated_router.snapshot.paramMap.get('name').replace("+"," ");  
       sessionStorage.setItem('username', this.username);
       this.useremail = this.activated_router.snapshot.paramMap.get('email');
       sessionStorage.setItem('useremail', this.useremail);
@@ -76,7 +75,7 @@ export class UserComponent implements OnInit {
     if (this.username != null && this.userpassword != null) {
       if (this.usertype == "web") {
         console.log(Number(sessionStorage.getItem('userid')), sessionStorage.getItem('username'), sessionStorage.getItem('useremail'), sessionStorage.getItem('userpassword'), sessionStorage.getItem('usertype'));
-        this.isOrganiser = true;
+        this.isUser = true;
         this.getEvents();
       } else if (this.usertype == "committee") {
         this.router.navigateByUrl('/organiser');
@@ -87,14 +86,29 @@ export class UserComponent implements OnInit {
     }
   }
   getEvents() {
+    this.dataService.fetchFollowingEvents(this.userid).subscribe( res => {
+      console.log("Following Data Fetched: ", res);
+      this.followingData = res;
+      console.log(this.followingData);
+    });
+
     this.dataService.fetchEvents().subscribe( res =>{
       console.log("Events Data Fetched: ", res);
-      this.eventsData = res['data'];
+      var tempEventsData = res['data'];
+      this.followingData.forEach(element => {
+        tempEventsData.forEach(tempEvent => {
+          if (tempEvent.committee_id == element.committee_id) {
+            this.eventsData.push(tempEvent);
+          }
+        });  
+      });
+      // this.eventsData = res['data'];
       this.eventsData.forEach(element => {
         element.from = new Date(element.from);
         element.to = new Date(element.to);
+        element.detailsToggle = false;
       });
-      this.eventsData.sort(this.compareDates); 
+      this.eventsData.sort(this.compareDates);
       this.displayCurrentEvents();    
     });
   }

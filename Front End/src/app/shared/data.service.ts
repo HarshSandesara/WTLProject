@@ -18,6 +18,10 @@ export class DataService {
     return this.http.get(this.URL + 'api/events');
   }
 
+  public fetchFollowingEvents(id: number) {
+    return this.http.get(this.URL + 'api/following/' + id);
+  }
+
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client Side Error: ', errorResponse.error.message);
@@ -46,6 +50,13 @@ export class DataService {
     }).pipe(catchError(this.handleError))
   }
 
+  public editEvent(data: any): Observable<void>{
+    return this.http.put<void>(this.URL + "api/events/" + data.id, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
   // public logoutUser() {
   //   return this.http.post(this.URL + "logoutMiddle", null, {
   //     headers: new HttpHeaders({
