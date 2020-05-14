@@ -15,7 +15,7 @@
     <hr>
     <a *ngIf="isOrganiser" href = "#" routerLink = "/organiser">Organiser Mode</a>
     <hr>
-    Logout
+    <a (click)="logoutUser()">Logout</a>
 </div>
 <!-- <div class="content" *ngIf=CalendarIsShow>
     <div class="calendar-container">
@@ -80,19 +80,20 @@
   </div> -->
   <div *ngIf=TimelineIsShow>
     <div class="timeline fadeIn" style="text-align: center;">
-      <input type="button" class="center-block btn-info btn-info-inverted" value="Past Events">
-      <div class="fadeIn" *ngFor = "let event of eventsData; index as i">
+      <input type="button" class="center-block btn-info btn-info-inverted" value="Past Events" (click)="displayPastEvents()">
+      <div class="fadeIn" *ngFor = "let event of eventsData | slice : startIndex : endIndex ; index as i">
         <div *ngIf="i%2 == 0, else elseblock" class="newcontainer left">
             <div class="container mycontent">
               <form class="ml-2 mt-2" id="form_{{ event.id }}">
                 <!-- <h4>Event Id: {{ event.id }}</h4> -->
-                <h2><b>{{ event.name }}</b></h2>
-                <h4><b>From:</b> {{ event.from | date }}, {{ event.from | slice: 10:-3}}</h4>
-                <h4><b>To:</b> {{ event.to | date }}, {{ event.to | slice: 10:-3}}</h4>
-                <h4><b>Registration Fees:</b> ₹{{ event.price }}</h4>
-                <div class="d-inline-flex">
-                  <!-- <button class="btn btn-info ml-2 fadeIn" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
-                  <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
+                <h2>{{ event.isPastEvent }}</h2>
+                <h2>{{ event.name }}</h2>
+                <h4>From: {{ event.from | date: "MMMM d, y h:mm a"}}</h4>
+                <h4>To: {{ event.to | date: "MMMM d, y h:mm a"}}</h4>
+                <h4>Registration Fees: ₹{{ event.price }}</h4>
+                <div *ngIf="event.from > curdatetime" class="d-inline-flex">
+                  <!-- <button class="btn btn-info ml-2 fadeIn" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button> -->
+                  <!-- <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
                   <button class="btn btn-info ml-2" type="button">Register</button>
                 </div>
               </form>
@@ -103,13 +104,14 @@
               <div class="mycontent">
                 <form class="ml-2 mt-2" id="form_{{ event.id }}">
                   <!-- <h4>Event Id: {{ event.id }}</h4> -->
-                  <h2><b>{{ event.name }}</b></h2> 
-                  <h4><b>From:</b> {{ event.from | date }}, {{ event.from | slice: 10:-3}}</h4>
-                  <h4><b>To:</b> {{ event.to | date }}, {{ event.to | slice: 10:-3}}</h4>
-                  <h4><b>Registration Fees:</b> ₹{{ event.price }}</h4>
-                  <div class="d-inline-flex">
-                    <!-- <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
-                    <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
+                  <h2>{{ event.isPastEvent }}</h2> 
+                  <h2>{{ event.name }}</h2> 
+                  <h4>From: {{ event.from | date: "MMMM d, y h:mm a" }}</h4>
+                  <h4>To: {{ event.to | date: "MMMM d, y h:mm a" }}</h4>
+                  <h4>Registration Fees: ₹{{ event.price }}</h4>
+                  <div *ngIf="event.from > curdatetime" class="d-inline-flex">
+                    <!-- <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button> -->
+                    <!-- <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button> -->
                     <button class="btn btn-info ml-2" type="button">Register</button>
                   </div>
                 </form>
@@ -117,7 +119,7 @@
           </div>
         </ng-template>
       </div>
-      <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events">
+      <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events" (click)="displayFutureEvents()">
     </div>
   </div>
   <div *ngIf=CommitteesIsShow class="container max-width">

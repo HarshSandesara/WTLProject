@@ -2,36 +2,55 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use App\Event;
 use App\User;
 use App\Http\Resources\Event as EventResource;
 use App\Http\Resources\EventCollection;
 use App\Committee;
-use Auth;
+use \Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $events[] = new Event();
-        array_shift($events);
-        foreach ($user->following as $committee) {
-            foreach($committee->event as $event) {
-                array_push($events, $event);
-            }
-        }
-        $sortedEvents = Arr::sort($events, function($event)
-        {
-            // Sort the events by their date and time.
-            return $event->from;
-        });
+        $user = auth()->user(); 
+        $profileData = array(
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'type' => Auth::getDefaultDriver()
+        );
+        $js_code = 'console.log(' . json_encode($profileData, JSON_HEX_TAG) . 
+    ');';
+        
+        $js_code = '<script>' . $js_code . '</script>';
+    
+        echo $js_code;
+        // $user = Auth::user();
+        // $events[] = new Event();
+        // array_shift($events);
+        // foreach ($user->following as $committee) {
+        //     foreach($committee->event as $event) {
+        //         array_push($events, $event);
+        //     }
+        // }
+        // $sortedEvents = Arr::sort($events, function($event)
+        // {
+        //     // Sort the events by their date and time.
+        //     return $event->from;
+        // });
         // return view('home', [
         //     'events' => $sortedEvents
         // ]);
-        return Redirect::away('http://localhost:4200/organiser');
+        if (Auth::getDefaultDriver() == 'web') {
+            return Redirect::away('http://localhost:4200/user/'.urlencode($user->id).'/'.urlencode($user->name).'/'.urlencode($user->email).'/'.urlencode($user->password).'/'.urlencode(Auth::getDefaultDriver()));
+        } else if (Auth::getDefaultDriver() == 'committee') {
+            return Redirect::away('http://localhost:4200/organiser/'.urlencode($user->id).'/'.urlencode($user->name).'/'.urlencode($user->email).'/'.urlencode($user->password).'/'.urlencode(Auth::getDefaultDriver()));
+        }
     }
 
     public function indexApi()
@@ -41,7 +60,20 @@ class EventController extends Controller
 
     public function loginDataApi() {
         $user = Auth::user();
-        return $user;
+        $type = Auth::getDefaultDriver();
+        return json_encode($type, JSON_HEX_TAG);
+    }
+
+    public function logout2() {        
+        Auth::guard()->logout();
+
+        request()->session()->invalidate();
+
+        request()->session()->regenerateToken();
+
+        return request()->wantsJson()
+            ? new Response('', 204)
+            : redirect('/');
     }
 
     public function show($id)

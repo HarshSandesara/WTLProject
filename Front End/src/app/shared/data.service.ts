@@ -18,10 +18,6 @@ export class DataService {
     return this.http.get(this.URL + 'api/events');
   }
 
-  public fetchLoginData() {
-    return this.http.get(this.URL + 'home');
-  }
-
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client Side Error: ', errorResponse.error.message);
@@ -49,4 +45,13 @@ export class DataService {
       })
     }).pipe(catchError(this.handleError))
   }
+
+  // public logoutUser() {
+  //   return this.http.post(this.URL + "logoutMiddle", null, {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': 'http://localhost:8000/logoutMiddle'
+  //     })
+  //   }).pipe(catchError(this.handleError));
+  // }
 }

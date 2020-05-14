@@ -28,8 +28,11 @@ class RedirectIfAuthenticated
 
         if (Auth::guard($guard)->check()) {        
             if ($guard === "committee") {
+                // Auth::shouldUse('committee');
                 return redirect('/committee');
-            }
+            } 
+                // Auth::shouldUse('web');
+            // }
             return redirect(RouteServiceProvider::HOME);
         }
 

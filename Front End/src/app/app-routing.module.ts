@@ -6,7 +6,9 @@ import { OrganiserComponent } from './organiser/organiser.component';
 
 const routes: Routes = [
   { path: 'user', component: UserComponent},
+  { path: 'user/:id/:name/:email/:password/:type', component: UserComponent},
   { path: 'organiser', component: OrganiserComponent},
+  { path: 'organiser/:id/:name/:email/:password/:type', component: OrganiserComponent}
 ];
 
 @NgModule({
