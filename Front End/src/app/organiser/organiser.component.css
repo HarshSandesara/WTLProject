@@ -1,5 +1,6 @@
 * {
     animation-duration: 2s;
+    font-family: pristina;
 }
 
 @font-face {
@@ -12,7 +13,7 @@
     background-size: cover;
     background-position: center;
     color: white;
-    font-family: monotypeCorsiva;
+    font-family: pristina;
     display: inline-block;
     width: 100%;
 }
@@ -535,7 +536,7 @@ body {
 
   /* The actual content */
   .mycontent {
-    font-family: monotypeCorsiva;
+    font-family: pristina;
     padding: 20px 30px;
     background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 50%, rgb(2, 47, 127) 100%);
     position: relative;
@@ -567,7 +568,7 @@ body {
 .btn-info-inverted {
     border-radius: 5px;
     font-size: larger;
-    font-family: monotypeCorsiva;
+    font-family: pristina;
     position: relative;
     color: white;
     background: radial-gradient(rgb(2, 169, 213) 0%, rgb(4, 110, 184) 100%);
@@ -614,6 +615,6 @@ body {
     display: inline-block;
 }
 
-.monotypeCorsiva {
-    font-family: monotypeCorsiva;
+.fantasy {
+    font-family: pristina;
 }

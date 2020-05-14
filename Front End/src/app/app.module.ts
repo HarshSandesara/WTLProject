@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,13 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { OrganiserComponent } from './organiser/organiser.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    OrganiserComponent
+    OrganiserComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -21,10 +23,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    NgbModule
   ],
   providers: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, OrganiserComponent],    
+  entryComponents: [ ModalComponent ]
 })
 export class AppModule { }

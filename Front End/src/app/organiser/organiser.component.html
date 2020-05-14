@@ -354,4 +354,76 @@
         </div>
         <input type="button" class="btn btn-info btn-info-inverted input-center" value="Add" (click)="addNewEvent()">
       </div>
-    </form> -->
+    </form>
+</div>
+<div *ngIf="EditProfile">
+  <div class="container margin-top max-width fadeIn">
+    <table class="margin-top table table-bordered fantasy">
+      <tr>
+        <th class="fantasy btn-info-inverted text-center">
+          <h3>
+            Your Profile
+          </h3>
+        </th>
+      </tr>
+      <tr class="text-center">
+        <td>
+          <img class="profileImage profileImageLarge" src="assets/ribbon4.jpg">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Name</h6>
+          <div class="input-group">
+          <input class="form-control max-width" type="text" value="{{name}}">
+          <input type="button" class="btn-info-inverted" value="Edit">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Email Address</h6>
+          <input class="form-control max-width" type="text" value="sandesara.harsh@gmail.com (Uneditable)">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Password</h6>
+          <div class="input-group">
+          <input class="form-control max-width" type="password" value="whateverlol">
+          <input type="button" class="btn-info-inverted" value="Edit">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Birthday</h6>
+          <input class="form-control max-width" type="text" value="9th May, 2000 (Uneditable; change type to date)">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Branch</h6>
+          <div class="input-group">
+          <input class="form-control max-width" type="text" value="Computer Engineering">
+          <input type="button" class="btn-info-inverted" value="Edit">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h6>Year</h6>
+          <div class="input-group">
+          <input class="form-control max-width" type="text" value="Second Year">
+          <input type="button" class="btn-info-inverted" value="Edit">
+          </div>
+        </td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+    <input type="button" class="margin-bottom btn-info-inverted" value="Done" (click)="saveChanges()">
+    <input type="button" class="margin-bottom btn-info-inverted" value="Cancel" (click)="cancelChanges()">
+  </div>
+</div>
+<button (click)="openModal()">open the modal</button> -->

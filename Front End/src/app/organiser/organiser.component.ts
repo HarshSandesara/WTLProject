@@ -5,6 +5,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from '../shared/Events';
 import { DOCUMENT } from '@angular/common';
 import { User } from '../shared/User';
+import { ModalComponent } from '../modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-organiser',
@@ -35,7 +37,15 @@ export class OrganiserComponent implements OnInit {
   tempCommittees = this.CommitteesIsShow;
   tempTimeline = this.TimelineIsShow;
   //NewEventIsShow = false;
-  constructor(private dataService: DataService, private router: Router, private activated_router: ActivatedRoute, @Inject(DOCUMENT) private document: Document) { }
+  constructor(private dataService: DataService, private router: Router, private activated_router: ActivatedRoute,  private modalService: NgbModal, @Inject(DOCUMENT) private document: Document) { }
+  public event = {
+    name: 'Open Mic',
+    dateFrom: '2020-03-02',
+    timeFrom: '18:30',
+    dateTo: '2020-03-02',
+    timeTo: '22:00',
+    fees: 200
+  }
 
   ngOnInit() {
     this.getProfile();
@@ -48,6 +58,18 @@ export class OrganiserComponent implements OnInit {
       newEventPrice: new FormControl("")
     });
     // document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
+  }
+  openModal() {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.event = this.event;
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+      }
+    });
+    // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    //   console.log(receivedEntry);
+    // })
   }
   compareDates(a, b) {
     const dateA = a.from;
@@ -204,7 +226,16 @@ export class OrganiserComponent implements OnInit {
     
   }
   editEvent(id: number) {
-
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.event = this.event;
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+      }
+    });
+    // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    //   console.log(receivedEntry);
+    // })
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;

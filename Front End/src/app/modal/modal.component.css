@@ -1,15 +1,12 @@
 * {
     animation-duration: 2s;
-}
-
-.fantasy {
     font-family: pristina;
 }
 
 .ribbon{
     background-image: url("/assets/ribbon5.jpg");
     background-size: cover;
-    background-position: top;
+    background-position: center;
     color: white;
     font-family: pristina;
     display: inline-block;
@@ -37,7 +34,7 @@ div.tab:hover{
     margin-right: 5px;
     margin-top: 5px;
     padding: 10px;
-    z-index: 2;
+    z-index: 6;
 }
 
 .profileImage{
@@ -45,12 +42,6 @@ div.tab:hover{
     height: 30px;
     width: 30px;
     margin-right: 10px;
-}
-
-.profileImageLarge{
-    height: 150px;
-    width: 150px;
-    display: inline-block;
 }
 
 body {
@@ -433,7 +424,7 @@ body {
     margin-bottom: 10px;
     z-index: 1;
   }
-  
+
   @keyframes fadeIn {
     0% {opacity: 0;}
     100% {opacity: 1;}
@@ -611,4 +602,14 @@ body {
 
 .max-width {
     max-width: 50%;
+}
+
+.profileImageLarge{
+    height: 150px;
+    width: 150px;
+    display: inline-block;
+}
+
+.fantasy {
+    font-family: pristina;
 }
