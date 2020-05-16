@@ -139,7 +139,6 @@ export class OrganiserComponent implements OnInit {
   displayCurrentEvents() {
     console.log(sessionStorage.getItem('boolDisplayCurrentItems'));
     if (sessionStorage.getItem('boolDisplayCurrentItems') == null || sessionStorage.getItem('boolDisplayCurrentItems') == 'false') {
-      // let curdatetime = new Date(); 
       for (var i = 1; i < this.eventsData.length; i++) {
         if (this.eventsData[i].from > this.curdatetime) {
           this.startIndex = i;
@@ -161,6 +160,7 @@ export class OrganiserComponent implements OnInit {
       console.log(sessionStorage.getItem('endIndex'));
       console.log(sessionStorage.getItem('boolDisplayCurrentItems'));
     }
+    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
   }
   displayPastEvents() {
     if (this.startIndex - 10 > 0) {
@@ -170,9 +170,6 @@ export class OrganiserComponent implements OnInit {
     }
     sessionStorage.setItem('startIndex', this.startIndex.toString());
     sessionStorage.setItem('boolDisplayCurrentItems', 'true');
-    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //   this.router.navigate(['/organiser']);
-    // });
   }
   
   displayFutureEvents() {
@@ -183,17 +180,11 @@ export class OrganiserComponent implements OnInit {
     }
     sessionStorage.setItem('endIndex', this.endIndex.toString());
     sessionStorage.setItem('boolDisplayCurrentItems', 'true');
-    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //   this.router.navigate(['/organiser']);
-    // });
   }
   deleteEvent(id: number) {
     this.dataService.deleteEvent(id).subscribe(
       () => {
         console.log(`Event with id = ${id} deleted`);
-        // this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
-        //   this.router.navigate(['/organiser']);
-        // });
         this.document.location.href = "http://localhost:4200/organiser" 
       },
       (err) => console.log(err) 
@@ -319,6 +310,20 @@ export class OrganiserComponent implements OnInit {
     // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
     //   console.log(receivedEntry);
     // })
+  }
+  countResponses(event_id) {
+    this.dataService.countResponses(event_id).subscribe(
+        // this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(['/organiser']);
+        // });
+      (data: any) => {
+        console.log(data);
+        window.alert("This event's responses are " + data);
+        // this.router.navigateByUrl('/user', { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(['/organiser']);
+        // });
+      }
+    );
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;

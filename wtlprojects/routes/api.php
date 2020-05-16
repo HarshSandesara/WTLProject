@@ -28,7 +28,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/events', 'EventController@indexApi');
 Route::get('/events/{id}', 'EventController@show');
 Route::get('/getprofile', 'EventController@loginDataApi');
-Route::any('/following/{id}', 'EventController@getFollowingData');
+Route::get('/committeesData', 'EventController@getCommitteeData');
+Route::get('/following/{id}', 'EventController@getFollowingData');
+Route::get('/follow/{user_id}/{committee_id}', 'EventController@follow');
+Route::get('/register/{user_id}/{event_id}', 'EventController@register');
+Route::get('/responses/{event_id}', 'EventController@responses');
 Route::post('/events', 'EventController@storeApi');
 Route::put('/events/{id}', 'EventController@update');
 Route::delete('/events/{id}', 'EventController@delete');

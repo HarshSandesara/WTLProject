@@ -1,179 +1,176 @@
 <html>
-<div class="ribbon">
-    <span class="headsize">Hello, {{username}}!</span>
-    <div class="row mx-auto">
-        <div class="col-md-4 text-center tab cursor" id="timeline" (click)=openTimeline()>Timeline</div>
-        <div class="col-md-4 text-center tab cursor" id="committees" (click)=openCommittees()>Committees</div>
-        <div class="col-md-4 text-center tab cursor" id="profile" (click)=openProfile()>Profile</div>
-    </div>
-</div>
-<div class="profile fadeIn pristina" *ngIf = "ProfileIsShow">
-    <img class="profileImage" src="/assets/ribbon4.jpg">
-    {{username}}<br>
-    <hr>
-    <span class="cursor" (click)="openEditProfile()">Edit Profile</span>
-    <hr>
-    
-    <a (click)="logoutUser()">Logout</a>
-</div>
-  <div *ngIf=TimelineIsShow>
-    <div class="timeline fadeIn" style="text-align: center;">
-      <input type="button" class="center-block btn-info btn-info-inverted" value="Past Events" (click)="displayPastEvents()">
-      <div class="fadeIn" *ngFor = "let event of eventsData | slice : startIndex : endIndex ; index as i">
-        <div *ngIf="i%2 == 0, else elseblock" class="newcontainer left">
-            <div class="container mycontent">
-              <form class="ml-2 mt-2" id="form_{{ event.id }}">
-                <h2>{{ event.isPastEvent }}</h2>
-                <h2>{{ event.name }}</h2>
-                <h4>From: {{ event.from | date: "MMMM d, y h:mm a"}}</h4>
-                <h4>To: {{ event.to | date: "MMMM d, y h:mm a"}}</h4>
-                <h4>Registration Fees: ₹{{ event.price }}</h4>
-                <h6 *ngIf=event.detailsToggle>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</h6>
-                <button class="btn btn-info ml-2" type="button" (click)="event.detailsToggle = !event.detailsToggle">Details</button>
-                <div *ngIf="event.from > curdatetime" class="d-inline-flex">
-                  <button class="btn btn-info ml-2" type="button">Register</button>
-                </div>
-              </form>
-            </div>
-        </div>
-        <ng-template #elseblock>
-          <div class="newcontainer right">
-              <div class="mycontent">
+  <div *ngIf="isUser">
+    <div class="ribbon">
+      <span class="headsize">Hello, {{username}}!</span>
+      <div class="row mx-auto">
+          <div class="col-md-4 text-center tab cursor" id="timeline" (click)=openTimeline()>Timeline</div>
+          <div class="col-md-4 text-center tab cursor" id="committees" (click)=openCommittees()>Committees</div>
+          <div class="col-md-4 text-center tab cursor" id="profile" (click)=openProfile()>Profile</div>
+      </div>
+  </div>
+  <div class="profile fadeIn pristina" *ngIf = "ProfileIsShow">
+      <img class="profileImage" src="/assets/ribbon4.jpg">
+      {{username}}<br>
+      <hr>
+      <span class="cursor" (click)="openEditProfile()">Edit Profile</span>
+      <hr>
+      
+      <a (click)="logoutUser()">Logout</a>
+  </div>
+    <div *ngIf=TimelineIsShow>
+      <div class="timeline fadeIn" style="text-align: center;">
+        <input type="button" class="center-block btn-info btn-info-inverted" value="Past Events" (click)="displayPastEvents()">
+        <div class="fadeIn" *ngFor = "let event of eventsData | slice : startIndex : endIndex ; index as i">
+          <div *ngIf="i%2 == 0, else elseblock" class="newcontainer left">
+              <div class="container mycontent">
                 <form class="ml-2 mt-2" id="form_{{ event.id }}">
-                  <!-- <h4>Event Id: {{ event.id }}</h4> -->
-                  <h2>{{ event.isPastEvent }}</h2> 
-                  <h2>{{ event.name }}</h2> 
-                  <h4>From: {{ event.from | date: "MMMM d, y h:mm a" }}</h4>
-                  <h4>To: {{ event.to | date: "MMMM d, y h:mm a" }}</h4>
+                  <h2>{{ event.isPastEvent }}</h2>
+                  <h2>{{ event.name }}</h2>
+                  <h4>From: {{ event.from | date: "MMMM d, y h:mm a"}}</h4>
+                  <h4>To: {{ event.to | date: "MMMM d, y h:mm a"}}</h4>
                   <h4>Registration Fees: ₹{{ event.price }}</h4>
                   <h6 *ngIf=event.detailsToggle>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</h6>
                   <button class="btn btn-info ml-2" type="button" (click)="event.detailsToggle = !event.detailsToggle">Details</button>
                   <div *ngIf="event.from > curdatetime" class="d-inline-flex">
-                    <button class="btn btn-info ml-2" type="button">Register</button>
+                    <button class="btn btn-info ml-2" type="button" (click)="registerEvent(event.id)">Register</button>
                   </div>
                 </form>
               </div>
           </div>
-        </ng-template>
+          <ng-template #elseblock>
+            <div class="newcontainer right">
+                <div class="mycontent">
+                  <form class="ml-2 mt-2" id="form_{{ event.id }}">
+                    <!-- <h4>Event Id: {{ event.id }}</h4> -->
+                    <h2>{{ event.isPastEvent }}</h2> 
+                    <h2>{{ event.name }}</h2> 
+                    <h4>From: {{ event.from | date: "MMMM d, y h:mm a" }}</h4>
+                    <h4>To: {{ event.to | date: "MMMM d, y h:mm a" }}</h4>
+                    <h4>Registration Fees: ₹{{ event.price }}</h4>
+                    <h6 *ngIf=event.detailsToggle>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</h6>
+                    <button class="btn btn-info ml-2" type="button" (click)="event.detailsToggle = !event.detailsToggle">Details</button>
+                    <div *ngIf="event.from > curdatetime" class="d-inline-flex">
+                      <button class="btn btn-info ml-2" type="button" (click)="registerEvent(event.id)">Register</button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </ng-template>
+        </div>
+        <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events" (click)="displayFutureEvents()">
       </div>
-      <input type="button" class="center-block btn-info btn-info-inverted" value="Next Events" (click)="displayFutureEvents()">
     </div>
-  </div>
-  <div *ngIf=CommitteesIsShow class="container max-width">
-    <table class="container margin-top table table-condensed table-bordered center-block fadeIn">
-      <tr>
-        <th class="text-center btn-info-inverted">
-          <h3>
-            Committees You've Registered To
-          </h3>
-        </th>
-    </tr>
-      <div *ngFor="let event of eventsData; index as i" class="container" id="events">
-        <form *ngIf="i%2==0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
-          <!-- <h4>Event Id: {{ event.id }}</h4> -->
-          <tr class="row">
-            <td class="border-0 col-md-9 pristina"><h4>{{ event.name }}</h4></td>
-            <!-- <td class="btn btn-info-inverted col-md-2 margin-right text-center">Follow Events</td> -->
-          </tr> 
-          
-        <hr>
-        </form>
-        
-      </div>
-      <tr>
-        <th class="text-center btn-info-inverted">
-          <h3>
-            Other Committees
-          </h3>
-        </th>
-      </tr>
-      <div *ngFor="let event of eventsData; index as i" class="container" id="events">
-        <form *ngIf="i%2!=0, else elseblock" class="ml-2 mt-2" id="form_{{ event.id }}">
-          
-          <tr class="row">
-            <td class="border-0 col-md-9 pristina"><h4>{{ event.name }}</h4></td>
-            <td class="btn btn-info-inverted col-md-2 text-center">Register</td>
-            <!-- <td class="btn btn-info-inverted col-md-2 margin-left margin-right text-center">Follow Events</td> -->
-          </tr> 
-          
-        <hr>
-        </form>
-        
-      </div>
-    </table>
-      
-  </div>
-  <div *ngIf="EditProfile">
-    <div class="container margin-top max-width fadeIn">
-      <table class="margin-top table table-bordered pristina">
+    <div *ngIf=CommitteesIsShow class="container max-width">
+      <table class="container margin-top table table-condensed table-bordered center-block fadeIn">
         <tr>
-          <th class="pristina btn-info-inverted text-center">
+          <th class="text-center btn-info-inverted">
             <h3>
-              Your Profile
+              Committees You've Registered To
+            </h3>
+          </th>
+      </tr>
+        <div *ngFor="let committee of committeesData; index as i" class="container" id="events">
+          <form *ngIf="committee.following" class="ml-2 mt-2" id="form_{{ committee.id }}">
+            <!-- <h4>Event Id: {{ event.id }}</h4> -->
+            <tr class="row">
+              <td class="border-0 col-md-9 pristina"><h4>{{ committee.name }}</h4></td>
+              <!-- <td class="btn btn-info-inverted col-md-2 margin-right text-center">Follow Events</td> -->
+            </tr> 
+          <hr>
+          </form>
+        </div>
+        <tr>
+          <th class="text-center btn-info-inverted">
+            <h3>
+              Other Committees
             </h3>
           </th>
         </tr>
-        <tr class="text-center">
-          <td>
-            <img class="profileImage profileImageLarge" src="assets/ribbon4.jpg">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Name</h6>
-            <div class="input-group">
-            <input class="form-control max-width" type="text" value="{{username}}">
-            <input type="button" class="btn-info-inverted" value="Edit">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Email Address</h6>
-            <input class="form-control max-width" type="text" value="{{useremail}} (Uneditable)">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Password</h6>
-            <div class="input-group">
-            <input class="form-control max-width" type="password" value="whateverlol">
-            <input type="button" class="btn-info-inverted" value="Edit">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Birthday</h6>
-            <input class="form-control max-width" type="text" value="9th May, 2000 (Uneditable; change type to date)">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Branch</h6>
-            <div class="input-group">
-            <input class="form-control max-width" type="text" value="Computer Engineering">
-            <input type="button" class="btn-info-inverted" value="Edit">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h6>Year</h6>
-            <div class="input-group">
-            <input class="form-control max-width" type="text" value="Second Year">
-            <input type="button" class="btn-info-inverted" value="Edit">
-            </div>
-          </td>
-        </tr>
-        <tr>
-        </tr>
+        <div *ngFor="let committee of committeesData; index as i" class="container" id="committees">
+          <form *ngIf="!committee.following" class="ml-2 mt-2" id="form_{{ committee.id }}">
+            <tr class="row">
+              <td class="border-0 col-md-9 pristina"><h4>{{ committee.name }}</h4></td>
+              <td class="btn btn-info-inverted col-md-2 text-center" (click)="registerCommittee(committee.id)">Register</td>
+              <!-- <td class="btn btn-info-inverted col-md-2 margin-left margin-right text-center">Follow Events</td> -->
+            </tr> 
+          <hr>
+          </form>
+        </div>
       </table>
-      <input type="button" class="margin-bottom btn-info-inverted" value="Done" (click)="saveChanges()">
-      <input type="button" class="margin-bottom btn-info-inverted" value="Cancel" (click)="cancelChanges()">
+        
+    </div>
+    <div *ngIf="EditProfile">
+      <div class="container margin-top max-width fadeIn">
+        <table class="margin-top table table-bordered pristina">
+          <tr>
+            <th class="pristina btn-info-inverted text-center">
+              <h3>
+                Your Profile
+              </h3>
+            </th>
+          </tr>
+          <tr class="text-center">
+            <td>
+              <img class="profileImage profileImageLarge" src="assets/ribbon4.jpg">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h6>Name</h6>
+              <div class="input-group">
+              <input class="form-control max-width" type="text" value="{{username}}">
+              <input type="button" class="btn-info-inverted" value="Edit">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h6>Email Address</h6>
+              <p class="lead">{{useremail}} (Uneditable)</p> 
+            </td>
+          </tr>
+          <!-- <tr>
+            <td>
+              <h6>Password</h6>
+              <div class="input-group">
+              <input class="form-control max-width" type="password" value="whateverlol">
+              <input type="button" class="btn-info-inverted" value="Edit">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h6>Birthday</h6>
+              <input class="form-control max-width" type="text" value="9th May, 2000 (Uneditable; change type to date)">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h6>Branch</h6>
+              <div class="input-group">
+              <input class="form-control max-width" type="text" value="Computer Engineering">
+              <input type="button" class="btn-info-inverted" value="Edit">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h6>Year</h6>
+              <div class="input-group">
+              <input class="form-control max-width" type="text" value="Second Year">
+              <input type="button" class="btn-info-inverted" value="Edit">
+              </div>
+            </td>
+          </tr>
+          <tr>
+          </tr> -->
+        </table>
+        <input type="button" class="margin-bottom btn-info-inverted" value="Done" (click)="saveChanges()">
+        <input type="button" class="margin-bottom btn-info-inverted" value="Cancel" (click)="cancelChanges()">
+      </div>
     </div>
   </div>
-  </html>
+</html>
   <!-- <a *ngIf="isOrganiser" href = "#" routerLink = "/organiser">Organiser Mode</a>
     <hr> -->
   <!-- <div class="content" *ngIf=CalendarIsShow>

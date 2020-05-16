@@ -22,6 +22,10 @@ export class DataService {
     return this.http.get(this.URL + 'api/following/' + id);
   }
 
+  public fetchCommittees() {
+    return this.http.get(this.URL + 'api/committeesData');
+  }
+
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client Side Error: ', errorResponse.error.message);
@@ -52,6 +56,26 @@ export class DataService {
 
   public editEvent(data: any): Observable<void>{
     return this.http.put<void>(this.URL + "api/events/" + data.id, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
+
+  public followCommittee(user_id: number, committee_id: number) {
+    return this.http.get(this.URL + 'api/follow/' + user_id + '/' + committee_id);
+  } 
+
+  public registerEvent(user_id: number, event_id: number) {
+    return this.http.get(this.URL + 'api/register/' + user_id + '/' + event_id);
+  } 
+
+  public countResponses(event_id: number) {
+    return this.http.get(this.URL + 'api/responses/' + event_id);
+  }
+
+  public editName(data: any): Observable<void>{
+    return this.http.put<void>(this.URL + "api/events/", data, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

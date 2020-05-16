@@ -88,20 +88,30 @@ class EventController extends Controller
         return $followingData;
     }
 
+    public function getEventRegistrationData()
+    {
+        return DB::table('event_user')->get();
+    }
+
     public function getCommitteeData() {
         return DB::table('committees')->get();
     }
 
-    public function follow(Request $request)
+    public function follow($user_id, $committee_id)
     {
         $user = User::find($user_id);
         $user->following()->attach($committee_id);
     }
 
-    public function register(Request $request)
+    public function register($user_id, $event_id)
     {
         $user = User::find($user_id);
-        $user->registered()->attach($event_id);
+        $user->registeredEvents()->attach($event_id);
+    }
+
+    public function responses($event_id)
+    {
+        return DB::table('event_user')->where('event_id', $event_id)->count();
     }
 
     public function store(Request $request)

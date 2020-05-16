@@ -10,7 +10,7 @@ import { DOCUMENT } from '@angular/common';
 })
 
 export class UserComponent implements OnInit {
-  isUser = false; // hardcoded
+  isUser = false;
   userid = Number(sessionStorage.getItem('userid'));
   username = sessionStorage.getItem('username');
   useremail = sessionStorage.getItem('useremail');
@@ -18,6 +18,7 @@ export class UserComponent implements OnInit {
   usertype = sessionStorage.getItem('usertype');
   eventsData = [];
   followingData;
+  committeesData;
   profileData;
   displayEventsData;
   curdatetime = new Date();
@@ -34,8 +35,8 @@ export class UserComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private activated_router: ActivatedRoute, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
+    this.getCommittees();
     this.getProfile();
-    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
   }
   compareDates(a, b) {
     const dateA = a.from;
@@ -51,7 +52,7 @@ export class UserComponent implements OnInit {
   }
   getProfile(){
     console.log(this.document.referrer);
-    if (this.document.referrer == "http://localhost:8000/" || this.document.referrer == "http://localhost:8000/login") {
+    if (this.document.referrer == "http://localhost:8000/" || this.document.referrer == "http://localhost:8000/login" || this.document.referrer == "http://localhost:8000/register") {
       console.log("Hello");
       this.userid = Number(this.activated_router.snapshot.paramMap.get('id'));
       sessionStorage.setItem('userid', this.userid.toString());
@@ -95,13 +96,17 @@ export class UserComponent implements OnInit {
     this.dataService.fetchEvents().subscribe( res =>{
       console.log("Events Data Fetched: ", res);
       var tempEventsData = res['data'];
-      this.followingData.forEach(element => {
+      for (const i in this.followingData) {
+        var element = this.followingData[i];
+        console.log(element);
+        this.committeesData[element.committee_id - 1].following = true;
         tempEventsData.forEach(tempEvent => {
           if (tempEvent.committee_id == element.committee_id) {
-            this.eventsData.push(tempEvent);
+            this.eventsData.push(tempEvent);  
           }
         });  
-      });
+      }
+      console.log(this.committeesData);
       // this.eventsData = res['data'];
       this.eventsData.forEach(element => {
         element.from = new Date(element.from);
@@ -110,6 +115,15 @@ export class UserComponent implements OnInit {
       });
       this.eventsData.sort(this.compareDates);
       this.displayCurrentEvents();    
+    });
+  }
+  getCommittees() {
+    this.dataService.fetchCommittees().subscribe( res => {
+      this.committeesData = res;
+      this.committeesData.forEach(element => {
+        element.following = false;  
+      });
+      console.log(this.committeesData);
     });
   }
   displayCurrentEvents() {
@@ -137,6 +151,7 @@ export class UserComponent implements OnInit {
       console.log(sessionStorage.getItem('endIndex'));
       console.log(sessionStorage.getItem('boolDisplayCurrentItems'));
     }
+    document.getElementById('timeline').style.backgroundColor = "rgba(4, 110, 184, 0.5)";
   }
   displayPastEvents() {
     if (this.startIndex - 10 > 0) {
@@ -162,6 +177,25 @@ export class UserComponent implements OnInit {
     // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     //   this.router.navigate(['/user']);
     // });
+  }
+  registerCommittee(committee_id: number) {
+    this.dataService.followCommittee(this.userid, committee_id).subscribe( res => {
+      console.log("Hello");
+      this.document.location.href="http://localhost:4200/user";
+    });
+  }
+  registerEvent(event_id: number) {
+    this.dataService.registerEvent(this.userid, event_id).subscribe( 
+      (res:any) => {
+      console.log("Bye");
+      window.alert("You have successfully registered for this event");
+      // this.document.location.href="http://localhost:4200/user";
+      }, 
+      (error: any) => {
+        console.log("You have already registered for this event!");
+        window.alert("You have already registered for this event!");
+      }
+    );
   }
   openProfile(){
     this.ProfileIsShow = !this.ProfileIsShow;

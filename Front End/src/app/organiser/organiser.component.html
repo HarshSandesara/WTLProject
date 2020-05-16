@@ -31,11 +31,12 @@
                   <h4>From: {{ event.from | date: "MMMM d, y h:mm a"}}</h4>
                   <h4>To: {{ event.to | date: "MMMM d, y h:mm a"}}</h4>
                   <h4>Registration Fees: ₹{{ event.price }}</h4>
+                  <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</h6>
                   <div *ngIf="event.from > curdatetime" class="d-inline-flex">
-                    <button class="btn btn-info ml-2 fadeIn" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
-                    <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button>
-                    <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="countResponses(event.id)">Responses</button>
+                    <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
+                    <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button>
                   </div>
+                  <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="countResponses(event.id)">Responses</button>
                 </form>
               </div>
           </div>
@@ -49,11 +50,12 @@
                     <h4>From: {{ event.from | date: "MMMM d, y h:mm a" }}</h4>
                     <h4>To: {{ event.to | date: "MMMM d, y h:mm a" }}</h4>
                     <h4>Registration Fees: ₹{{ event.price }}</h4>
+                    <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et tortor efficitur, porttitor nisl molestie, gravida justo. Integer eu sodales sapien.</h6>
                     <div *ngIf="event.from > curdatetime" class="d-inline-flex">
                       <button class="btn btn-info ml-2" type="button" value="edit_{{ event.id }}" (click)="editEvent(event.id)">Edit</button>
                       <button class="btn btn-info ml-2" type="button" value="delete_{{ event.id }}" (click)="deleteEvent(event.id)">Delete</button>
-                      <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="countResponses(event.id)">Responses</button>
                     </div>
+                    <button class="btn btn-info ml-2 fadeIn" type="button" value="delete_{{ event.id }}" (click)="countResponses(event.id)">Responses</button>
                   </form>
                 </div>
             </div>
@@ -111,6 +113,19 @@
                 <input id="newEventEndTime" type="time" class="form-control" formControlName="newEventEndTime">
               </div>
             </div>
+            <br>
+            <div class="form-row">
+              <div class="col sm-12">
+                <label for="description">
+                  Description
+                </label>
+              </div>
+            </div>
+              <div class="row">
+                <div class="col sm-12">
+                  <textarea class="form-control" id="description" value="whateverlol">This is the description of the committee.</textarea>
+                </div>
+              </div>
             <br>
           </div>        
         </div>

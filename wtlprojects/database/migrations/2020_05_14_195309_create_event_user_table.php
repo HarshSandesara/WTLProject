@@ -13,9 +13,10 @@ class CreateEventUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('event_user', function (Blueprint $table) {
+        Schema::create('event_user', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('event_id')->unsigned();
+            $table->primary(['user_id', 'event_id']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();
